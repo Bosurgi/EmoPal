@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.dissertation.emotrain"
+    namespace = "com.dissertation.emopal"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.dissertation.emotrain"
+        applicationId = "com.dissertation.emopal"
         minSdk = 30
         targetSdk = 34
         versionCode = 1

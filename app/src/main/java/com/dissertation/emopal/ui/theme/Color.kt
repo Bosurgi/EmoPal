@@ -1,4 +1,4 @@
-package com.dissertation.emotrain.ui.theme
+package com.dissertation.emopal.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

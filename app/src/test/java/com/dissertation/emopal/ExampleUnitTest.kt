@@ -1,4 +1,4 @@
-package com.dissertation.emotrain
+package com.dissertation.emopal
 
 import org.junit.Test
 

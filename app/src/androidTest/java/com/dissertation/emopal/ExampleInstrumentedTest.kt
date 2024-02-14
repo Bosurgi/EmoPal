@@ -1,4 +1,4 @@
-package com.dissertation.emotrain
+package com.dissertation.emopal
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
