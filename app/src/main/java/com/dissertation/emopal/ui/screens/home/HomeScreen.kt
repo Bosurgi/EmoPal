@@ -48,6 +48,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // HOME PAGE IMAGE //
             Image(
                 modifier = Modifier
                     .width(300.dp)
@@ -56,6 +57,8 @@ fun HomeScreen(
                 // TODO: Add to string Resource
                 contentDescription = "Smiley Cat",
             )
+
+            // PLAY BUTTON //
             Button(
                 onClick = { /*TODO*/ },
                 modifier = Modifier.sizeIn(minWidth = 144.dp, minHeight = 62.dp),
@@ -69,6 +72,7 @@ fun HomeScreen(
             }
 //            Spacer(modifier = Modifier.height(8.dp))
 
+            // Bottom Button Column
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -81,6 +85,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly,
 
                     ) {
+                    // DIARY BUTTON //
                     Button(
                         onClick = { /*TODO*/ },
                         modifier = Modifier.sizeIn(minWidth = 124.dp, minHeight = 62.dp),
@@ -93,6 +98,7 @@ fun HomeScreen(
                         )
                     }
 
+                    // HELP BUTTON //
                     Button(
                         onClick = { /*TODO*/ },
                         modifier = Modifier.sizeIn(minWidth = 124.dp, minHeight = 62.dp),
