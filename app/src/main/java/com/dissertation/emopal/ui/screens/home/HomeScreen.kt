@@ -49,37 +49,43 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Image(
-                modifier = Modifier.width(300.dp),
+                modifier = Modifier
+                    .width(300.dp)
+                    .weight(1F, fill = true),
                 painter = painterResource(id = R.drawable.smiley_bee),
                 // TODO: Add to string Resource
                 contentDescription = "Smiley Cat",
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier.sizeIn(minWidth = 144.dp, minHeight = 62.dp),
+                shape = MaterialTheme.shapes.small,
+            )
+            {
+                Text(
+                    text = "Play",
+                    fontSize = 24.sp
+                )
+            }
+//            Spacer(modifier = Modifier.height(8.dp))
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Button(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier.sizeIn(minWidth = 144.dp, minHeight = 62.dp),
-                    shape = MaterialTheme.shapes.small,
-                    )
-                {
-                    Text(
-                        text = "Play",
-                        fontSize = 24.sp
-                    )
-                }
-                Spacer(modifier = Modifier.height(48.dp))
+//                Spacer(modifier = Modifier.height(48.dp))
                 Row(
-                    modifier = Modifier.padding(24.dp, 24.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(24.dp, 24.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
 
-                ) {
-                    Button(onClick = { /*TODO*/ },
+                    ) {
+                    Button(
+                        onClick = { /*TODO*/ },
                         modifier = Modifier.sizeIn(minWidth = 124.dp, minHeight = 62.dp),
-                        shape = MaterialTheme.shapes.small,) {
+                        shape = MaterialTheme.shapes.small,
+                    ) {
 
                         Text(
                             text = "Diary",
@@ -87,10 +93,11 @@ fun HomeScreen(
                         )
                     }
 
-                    Button(onClick = { /*TODO*/ },
+                    Button(
+                        onClick = { /*TODO*/ },
                         modifier = Modifier.sizeIn(minWidth = 124.dp, minHeight = 62.dp),
                         shape = MaterialTheme.shapes.small,
-                        ) {
+                    ) {
 
                         Text(
                             text = "Help",
