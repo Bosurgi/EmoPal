@@ -74,7 +74,7 @@ fun DiaryBody(emotions: List<String>, onBackButtonClicked: () -> Unit) {
             }
 
             // TAKE PICTURE BUTTON //
-
+            // TODO: This is going to be used in the game as well. To Make a reusable composable.
             Button(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
