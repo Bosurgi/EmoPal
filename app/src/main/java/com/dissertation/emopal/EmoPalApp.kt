@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dissertation.emopal.routes.Routes
+import com.dissertation.emopal.ui.screens.diary.DiaryScreen
 import com.dissertation.emopal.ui.screens.home.HomeScreen
 
 @Composable
@@ -29,6 +30,9 @@ fun EmoPalApp(
             // Composing the Home Screen
             composable(route = Routes.HOME.name) {
                 HomeScreen(
+                    onDiaryButtonClicked = {
+                        navController.navigate(Routes.DIARY.name)
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         // TODO: Change padding to Resource Value Dimensions Example -> (R.dimen.padding)
@@ -36,6 +40,9 @@ fun EmoPalApp(
                 )
             }
             // TODO: Add the other screens below
+            composable(route = Routes.DIARY.name) {
+                DiaryScreen()
+            }
         }
     } // End of Scaffold lambda
 } // End of EmoPalApp Composable

@@ -21,11 +21,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.dissertation.emopal.R
 import com.dissertation.emopal.ui.theme.EmoPalTheme
 
 @Composable
 fun HomeScreen(
+    onDiaryButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -87,7 +89,7 @@ fun HomeScreen(
                     ) {
                     // DIARY BUTTON //
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { onDiaryButtonClicked() },
                         modifier = Modifier.sizeIn(minWidth = 124.dp, minHeight = 62.dp),
                         shape = MaterialTheme.shapes.small,
                     ) {
@@ -123,6 +125,7 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     EmoPalTheme {
         HomeScreen(
+            onDiaryButtonClicked = {},
             modifier = Modifier
                 .fillMaxSize()
                 .padding(1.dp)
