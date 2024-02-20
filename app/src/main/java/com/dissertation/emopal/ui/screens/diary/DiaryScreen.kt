@@ -27,9 +27,11 @@ import androidx.compose.ui.unit.sp
  * Diary Screen Composable which contains the list of emotions and the images.
  */
 @Composable
-fun DiaryScreen() {
+fun DiaryScreen(
+    onBackButtonClicked: () -> Unit,
+) {
     val emotions = listOf("Happy", "Sad", "Angry", "Surprise")
-    DiaryBody(emotions)
+    DiaryBody(emotions, onBackButtonClicked)
 }
 
 /**
@@ -41,7 +43,7 @@ fun DiaryScreen() {
 // TODO: To be changed using the Database and ViewModel with real pictures.
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DiaryBody(emotions: List<String>) {
+fun DiaryBody(emotions: List<String>, onBackButtonClicked: () -> Unit) {
 // Wrapping it in a Box to have the footer buttons at the bottom of the screen.
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
@@ -63,7 +65,7 @@ fun DiaryBody(emotions: List<String>) {
         {
             // BACK BUTTON //
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onBackButtonClicked() },
                 modifier = Modifier
                     .sizeIn(minWidth = 124.dp, minHeight = 62.dp)
                     .padding(8.dp),
@@ -120,5 +122,5 @@ fun CategoryList(category: String) {
 @Composable
 @Preview
 fun DiaryScreenPreview() {
-    DiaryScreen()
+    DiaryScreen(onBackButtonClicked = {})
 }

@@ -41,7 +41,7 @@ fun EmoPalApp(
             }
             // TODO: Add the other screens below
             composable(route = Routes.DIARY.name) {
-                DiaryScreen()
+                DiaryScreen(onBackButtonClicked = { navController.navigate(Routes.HOME.name) })
             }
         }
     } // End of Scaffold lambda
