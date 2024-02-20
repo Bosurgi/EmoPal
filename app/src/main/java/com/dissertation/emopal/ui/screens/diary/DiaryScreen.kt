@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 fun DiaryScreen(
     onBackButtonClicked: () -> Unit,
 ) {
+    // TODO: Use the ViewModel to get the list of emotions from the Database.
     val emotions = listOf("Happy", "Sad", "Angry", "Surprise")
     DiaryBody(emotions, onBackButtonClicked)
 }
