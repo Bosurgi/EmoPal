@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dissertation.emopal.routes.Routes
 import com.dissertation.emopal.ui.screens.diary.DiaryScreen
+import com.dissertation.emopal.ui.screens.game.GameScreen
 import com.dissertation.emopal.ui.screens.home.HomeScreen
 
 @Composable
@@ -30,8 +31,13 @@ fun EmoPalApp(
             // Composing the Home Screen
             composable(route = Routes.HOME.name) {
                 HomeScreen(
+                    // Diary Button Event //
                     onDiaryButtonClicked = {
                         navController.navigate(Routes.DIARY.name)
+                    },
+                    // Play Button Event //
+                    onPlayButtonClicked = {
+                        navController.navigate(Routes.PLAY.name)
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -49,7 +55,12 @@ fun EmoPalApp(
                         }
                     }
                 })
-            }
+            } // End of Diary Screen
+
+            composable(route = Routes.PLAY.name) {
+                GameScreen()
+            } // End of Game Screen
+
         }
     } // End of Scaffold lambda
 } // End of EmoPalApp Composable

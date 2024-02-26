@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dissertation.emopal.ui.components.BackButton
 
 /**
  * Diary Screen Composable which contains the list of emotions and the images.
@@ -63,15 +64,7 @@ fun DiaryBody(emotions: List<String>, onBackButtonClicked: () -> Unit) {
         )
         {
             // BACK BUTTON //
-            Button(
-                onClick = { onBackButtonClicked() },
-                modifier = Modifier
-                    .sizeIn(minWidth = 124.dp, minHeight = 62.dp)
-                    .padding(8.dp),
-                shape = MaterialTheme.shapes.small
-            ) {
-                Text(text = "Back", fontSize = 24.sp)
-            }
+            BackButton(onBackButtonClicked = onBackButtonClicked)
 
             // TAKE PICTURE BUTTON //
             // TODO: This is going to be used in the game as well. To Make a reusable composable.
@@ -84,8 +77,8 @@ fun DiaryBody(emotions: List<String>, onBackButtonClicked: () -> Unit) {
             ) {
                 Text(text = "Take Picture", fontSize = 24.sp)
             }
-        }
-    }
+        } // End of Row
+    } // End of Box
 } // End of Composable
 
 /**
