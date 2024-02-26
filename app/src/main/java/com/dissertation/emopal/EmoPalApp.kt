@@ -41,7 +41,14 @@ fun EmoPalApp(
             }
             // TODO: Add the other screens below
             composable(route = Routes.DIARY.name) {
-                DiaryScreen(onBackButtonClicked = { navController.navigate(Routes.HOME.name) })
+                DiaryScreen(onBackButtonClicked = {
+                    // It will navigate to the Home View and pop the back stack to remove the Diary Screen.
+                    navController.navigate(Routes.HOME.name) {
+                        popUpTo(Routes.HOME.name) {
+                            inclusive = true
+                        }
+                    }
+                })
             }
         }
     } // End of Scaffold lambda
