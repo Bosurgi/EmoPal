@@ -63,11 +63,9 @@ fun PlayScreenLandscape(games: Int, onLevelClicked: (String) -> Unit) {
         for (i in 1 until games + 1) {
             Button(
                 onClick = {
-                    onLevelClicked("LEVEL${i.toString()}")
+                    onLevelClicked("LEVEL$i")
                 },
                 shape = MaterialTheme.shapes.small,
-//                    modifier = Modifier
-//                        .size(150.dp)
             ) {
                 Text(
                     text = "Level $i",
@@ -89,10 +87,8 @@ fun PlayScreenPortrait(games: Int, onLevelClicked: (String) -> Unit) {
     ) {
         for (i in 1 until games + 1) {
             Button(
-                onClick = { onLevelClicked("LEVEL${i.toString()}") },
+                onClick = { onLevelClicked("LEVEL$i") },
                 shape = MaterialTheme.shapes.small,
-//                    modifier = Modifier
-//                        .size(150.dp)
             ) {
                 Text(
                     text = "Level $i",
