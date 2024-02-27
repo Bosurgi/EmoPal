@@ -1,4 +1,4 @@
-package com.dissertation.emopal.ui.screens.game
+package com.dissertation.emopal.ui.screens.play
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -21,17 +21,20 @@ import androidx.compose.ui.unit.dp
 import com.dissertation.emopal.ui.components.BackButton
 
 @Composable
-fun GameScreen(onBackButtonClicked: () -> Unit) {
+fun PlayScreen(
+    onBackButtonClicked: () -> Unit,
+    onLevelClicked: (String) -> Unit,
+) {
     val orientation = LocalConfiguration.current.orientation
     val GAMES = 3
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Checking the orientation to change button disposition accordingly
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            GameScreenLandscape(games = GAMES)
+            PlayScreenLandscape(games = GAMES, onLevelClicked = onLevelClicked)
 
         } else {
-            GameScreenPortrait(games = GAMES)
+            PlayScreenPortrait(games = GAMES, onLevelClicked = onLevelClicked)
         }
         // FOOTER BUTTONS //
         Row(
@@ -49,7 +52,7 @@ fun GameScreen(onBackButtonClicked: () -> Unit) {
 } // End of Composable
 
 @Composable
-fun GameScreenLandscape(games: Int) {
+fun PlayScreenLandscape(games: Int, onLevelClicked: (String) -> Unit) {
     Row(
         modifier = Modifier
             .padding(16.dp)
@@ -57,15 +60,17 @@ fun GameScreenLandscape(games: Int) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        for (i in 0 until games) {
+        for (i in 1 until games + 1) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    onLevelClicked("LEVEL${i.toString()}")
+                },
                 shape = MaterialTheme.shapes.small,
 //                    modifier = Modifier
 //                        .size(150.dp)
             ) {
                 Text(
-                    text = "Level ${i + 1}",
+                    text = "Level $i",
                     style = MaterialTheme.typography.headlineLarge
                 );
             }
@@ -74,7 +79,7 @@ fun GameScreenLandscape(games: Int) {
 }
 
 @Composable
-fun GameScreenPortrait(games: Int) {
+fun PlayScreenPortrait(games: Int, onLevelClicked: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -82,15 +87,15 @@ fun GameScreenPortrait(games: Int) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        for (i in 0 until games) {
+        for (i in 1 until games + 1) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onLevelClicked("LEVEL${i.toString()}") },
                 shape = MaterialTheme.shapes.small,
 //                    modifier = Modifier
 //                        .size(150.dp)
             ) {
                 Text(
-                    text = "Level ${i + 1}",
+                    text = "Level $i",
                     style = MaterialTheme.typography.headlineLarge
                 );
             }
@@ -101,5 +106,5 @@ fun GameScreenPortrait(games: Int) {
 @Composable
 @Preview
 fun GameScreenPreview() {
-    GameScreen(onBackButtonClicked = {})
+    PlayScreen(onBackButtonClicked = {}, onLevelClicked = {})
 }

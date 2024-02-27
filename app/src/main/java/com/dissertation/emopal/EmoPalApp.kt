@@ -10,10 +10,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.dissertation.emopal.routes.Routes
 import com.dissertation.emopal.ui.screens.diary.DiaryScreen
-import com.dissertation.emopal.ui.screens.game.GameScreen
 import com.dissertation.emopal.ui.screens.home.HomeScreen
+import com.dissertation.emopal.ui.screens.play.Level
+import com.dissertation.emopal.ui.screens.play.PlayScreen
 
 @Composable
 fun EmoPalApp(
@@ -25,6 +27,14 @@ fun EmoPalApp(
     val navigateBackToHome: () -> Unit = {
         navController.navigate(Routes.HOME.name) {
             popUpTo(Routes.HOME.name) {
+                inclusive = true
+            }
+        }
+    } // End of Lambda
+
+    val navigateBackToPlay: () -> Unit = {
+        navController.navigate(Routes.NESTED_PLAY.name) {
+            popUpTo(Routes.NESTED_PLAY.name) {
                 inclusive = true
             }
         }
@@ -55,15 +65,44 @@ fun EmoPalApp(
                         // TODO: Change padding to Resource Value Dimensions Example -> (R.dimen.padding)
                         .padding(16.dp)
                 )
-            }
-            // TODO: Refactor the below to avoid code repetition
+            } // End of Home Screen for NavGraphBuilder
+
             composable(route = Routes.DIARY.name) {
                 DiaryScreen(onBackButtonClicked = navigateBackToHome)
-            } // End of Diary Screen
+            } // End of Diary Screen for NavGraphBuilder
 
-            composable(route = Routes.PLAY.name) {
-                GameScreen(onBackButtonClicked = navigateBackToHome)
-            } // End of Game Screen
+            // Nested Navigation Graph from PLAY Screen //
+            navigation(
+                startDestination = Routes.PLAY.name,
+                route = Routes.NESTED_PLAY.name,
+            ) {
+
+                // PLAY SCREEN //
+                composable(route = Routes.PLAY.name) {
+                    PlayScreen(
+                        onBackButtonClicked = navigateBackToHome,
+                        onLevelClicked = { levelRoute ->
+                            navController.navigate(levelRoute)
+                        })
+                }
+                // LEVEL SCREENS //
+
+                composable(route = Routes.LEVEL1.name) {
+                    /* TODO: Implement Actual mini-games for each Level */
+                    Level(level = "1", onBackButtonClicked = navigateBackToPlay)
+                }
+
+                composable(route = Routes.LEVEL2.name) {
+                    /* TODO: Implement Actual mini-games for each Level */
+                    Level(level = "2", onBackButtonClicked = navigateBackToPlay)
+                }
+
+                composable(route = Routes.LEVEL3.name) {
+                    /* TODO: Implement Actual mini-games for each Level */
+                    Level(level = "3", onBackButtonClicked = navigateBackToPlay)
+                }
+            } // End of Nested Navigation Graph for Play Screen
+
             // TODO: Add the other screens below
         }
     } // End of Scaffold lambda

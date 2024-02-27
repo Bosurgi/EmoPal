@@ -28,4 +28,13 @@ enum class Routes() {
      * The diary page route to display diary sandbox page.
      */
     DIARY,
+
+    NESTED_PLAY,
+
+    LEVEL1,
+
+    LEVEL2,
+
+    LEVEL3,
+
 }
