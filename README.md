@@ -1,1 +1,1 @@
-# EmoTrain
+# EmoPal
