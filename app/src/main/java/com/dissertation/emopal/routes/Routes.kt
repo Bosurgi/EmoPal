@@ -7,6 +7,10 @@ package com.dissertation.emopal.routes
  * @property [HELP] Route name to the Help Section Page
  * @property [PLAY] Route Name to direct user to Game Selection Page
  * @property [DIARY] Route Name to direct user to Diary Sandbox Page
+ * @property [NESTED_PLAY] Route Name to direct user to Nested Navigation Route for Play Page
+ * @property [LEVEL1] Route Name to direct user to Level 1 Game Page
+ * @property [LEVEL2] Route Name to direct user to Level 2 Game Page
+ * @property [LEVEL3] Route Name to direct user to Level 3 Game Page
  */
 enum class Routes() {
     /**
@@ -29,11 +33,26 @@ enum class Routes() {
      */
     DIARY,
 
+    /**
+     * The nested play page route to display nested navigation route for play page.
+     */
     NESTED_PLAY,
+
+    /**
+     * The level 1 game page route to display level 1 game page.
+     */
 
     LEVEL1,
 
+    /**
+     * The level 2 game page route to display level 2 game page.
+     */
+
     LEVEL2,
+
+    /**
+     * The level 3 game page route to display level 3 game page.
+     */
 
     LEVEL3,
 
