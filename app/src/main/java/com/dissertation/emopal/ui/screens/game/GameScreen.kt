@@ -21,57 +21,19 @@ import androidx.compose.ui.unit.dp
 import com.dissertation.emopal.ui.components.BackButton
 
 @Composable
-fun GameScreen() {
+fun GameScreen(onBackButtonClicked: () -> Unit) {
     val orientation = LocalConfiguration.current.orientation
     val GAMES = 3
 
     Box(modifier = Modifier.fillMaxSize()) {
+        // Checking the orientation to change button disposition accordingly
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                for (i in 0 until GAMES) {
-                    Button(
-                        onClick = { /*TODO*/ },
-                        shape = MaterialTheme.shapes.small,
-//                    modifier = Modifier
-//                        .size(150.dp)
-                    ) {
-                        Text(
-                            text = "Level ${i + 1}",
-                            style = MaterialTheme.typography.headlineLarge
-                        );
-                    }
-                }
-            } // End of Row
+            GameScreenLandscape(games = GAMES)
 
         } else {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                for (i in 0 until GAMES) {
-                    Button(
-                        onClick = { /*TODO*/ },
-                        shape = MaterialTheme.shapes.small,
-//                    modifier = Modifier
-//                        .size(150.dp)
-                    ) {
-                        Text(
-                            text = "Level ${i + 1}",
-                            style = MaterialTheme.typography.headlineLarge
-                        );
-                    }
-                }
-            } // End of Column
+            GameScreenPortrait(games = GAMES)
         }
+        // FOOTER BUTTONS //
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,14 +42,64 @@ fun GameScreen() {
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             // BACK BUTTON //
-            BackButton(onBackButtonClicked = { /*TODO*/ })
+            BackButton(onBackButtonClicked = onBackButtonClicked)
 
         } // End of Row
     } // End of Box
 } // End of Composable
 
 @Composable
+fun GameScreenLandscape(games: Int) {
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        for (i in 0 until games) {
+            Button(
+                onClick = { /*TODO*/ },
+                shape = MaterialTheme.shapes.small,
+//                    modifier = Modifier
+//                        .size(150.dp)
+            ) {
+                Text(
+                    text = "Level ${i + 1}",
+                    style = MaterialTheme.typography.headlineLarge
+                );
+            }
+        }
+    } // End of Row
+}
+
+@Composable
+fun GameScreenPortrait(games: Int) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        for (i in 0 until games) {
+            Button(
+                onClick = { /*TODO*/ },
+                shape = MaterialTheme.shapes.small,
+//                    modifier = Modifier
+//                        .size(150.dp)
+            ) {
+                Text(
+                    text = "Level ${i + 1}",
+                    style = MaterialTheme.typography.headlineLarge
+                );
+            }
+        }
+    } // End of Column
+}
+
+@Composable
 @Preview
 fun GameScreenPreview() {
-    GameScreen()
+    GameScreen(onBackButtonClicked = {})
 }

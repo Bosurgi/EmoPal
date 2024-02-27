@@ -45,7 +45,7 @@ fun EmoPalApp(
                         .padding(16.dp)
                 )
             }
-            // TODO: Add the other screens below
+            // TODO: Refactor the below to avoid code repetition
             composable(route = Routes.DIARY.name) {
                 DiaryScreen(onBackButtonClicked = {
                     // It will navigate to the Home View and pop the back stack to remove the Diary Screen.
@@ -54,13 +54,19 @@ fun EmoPalApp(
                             inclusive = true
                         }
                     }
-                })
+                }) // End of Screen Context
             } // End of Diary Screen
 
             composable(route = Routes.PLAY.name) {
-                GameScreen()
+                GameScreen(onBackButtonClicked = {
+                    navController.navigate(Routes.HOME.name) {
+                        popUpTo(Routes.HOME.name) {
+                            inclusive = true
+                        }
+                    }
+                }) // End of Screen Context
             } // End of Game Screen
-
+            // TODO: Add the other screens below
         }
     } // End of Scaffold lambda
 } // End of EmoPalApp Composable
