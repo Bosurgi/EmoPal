@@ -19,6 +19,17 @@ import com.dissertation.emopal.ui.screens.home.HomeScreen
 fun EmoPalApp(
     navController: NavHostController = rememberNavController()
 ) {
+    /**
+     * Navigate back to the Home Screen lambda function
+     */
+    val navigateBackToHome: () -> Unit = {
+        navController.navigate(Routes.HOME.name) {
+            popUpTo(Routes.HOME.name) {
+                inclusive = true
+            }
+        }
+    } // End of Lambda
+
     Scaffold() { innerPadding ->
 
         // Set the NavHost to navigate between screens
@@ -47,24 +58,11 @@ fun EmoPalApp(
             }
             // TODO: Refactor the below to avoid code repetition
             composable(route = Routes.DIARY.name) {
-                DiaryScreen(onBackButtonClicked = {
-                    // It will navigate to the Home View and pop the back stack to remove the Diary Screen.
-                    navController.navigate(Routes.HOME.name) {
-                        popUpTo(Routes.HOME.name) {
-                            inclusive = true
-                        }
-                    }
-                }) // End of Screen Context
+                DiaryScreen(onBackButtonClicked = navigateBackToHome)
             } // End of Diary Screen
 
             composable(route = Routes.PLAY.name) {
-                GameScreen(onBackButtonClicked = {
-                    navController.navigate(Routes.HOME.name) {
-                        popUpTo(Routes.HOME.name) {
-                            inclusive = true
-                        }
-                    }
-                }) // End of Screen Context
+                GameScreen(onBackButtonClicked = navigateBackToHome)
             } // End of Game Screen
             // TODO: Add the other screens below
         }
