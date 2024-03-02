@@ -41,7 +41,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -87,6 +87,6 @@ dependencies {
     implementation("androidx.camera:camera-view:${camerax_version}")
     implementation("androidx.camera:camera-extensions:${camerax_version}")
     // The Below line is not needed but it is used for future development if using MLKit
-    implementation("androidx.camera:camera-mlkit-vision:${camerax_version}")
+//    implementation("androidx.camera:camera-mlkit-vision:${camerax_version}")
 
 }
