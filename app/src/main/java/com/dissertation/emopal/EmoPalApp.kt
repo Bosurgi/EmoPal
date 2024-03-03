@@ -41,6 +41,14 @@ fun EmoPalApp(
         }
     } // End of Lambda
 
+    val navigateBackToDiary: () -> Unit = {
+        navController.navigate(Routes.NESTED_DIARY.name) {
+            popUpTo(Routes.NESTED_DIARY.name) {
+                inclusive = true
+            }
+        }
+    } // End of Lambda
+
     Scaffold() { innerPadding ->
 
         // Set the NavHost to navigate between screens
@@ -77,7 +85,7 @@ fun EmoPalApp(
                 }
                 // TODO: Add Back button function to navigate back to the Diary Screen
                 composable(route = Routes.CAMERA.name) {
-                    CameraView()
+                    CameraView(navigateBackToDiary)
                 }
             } // End of Nested Navigation Graph for Diary Screen
 
