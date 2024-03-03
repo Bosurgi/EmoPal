@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended-android:1.6.2")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     testImplementation("junit:junit:4.13.2")
@@ -87,6 +88,6 @@ dependencies {
     implementation("androidx.camera:camera-view:${camerax_version}")
     implementation("androidx.camera:camera-extensions:${camerax_version}")
     // The Below line is not needed but it is used for future development if using MLKit
-//    implementation("androidx.camera:camera-mlkit-vision:${camerax_version}")
+    //    implementation("androidx.camera:camera-mlkit-vision:COMPATIBLE_VERSION_HERE")
 
 }
