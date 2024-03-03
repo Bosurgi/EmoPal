@@ -29,10 +29,11 @@ import com.dissertation.emopal.ui.components.BackButton
 @Composable
 fun DiaryScreen(
     onBackButtonClicked: () -> Unit,
+    onTakePictureClicked: () -> Unit,
 ) {
     // TODO: Use the ViewModel to get the list of emotions from the Database.
     val emotions = listOf("Happy", "Sad", "Angry", "Surprise")
-    DiaryBody(emotions, onBackButtonClicked)
+    DiaryBody(emotions, onBackButtonClicked, onTakePictureClicked)
 }
 
 /**
@@ -43,7 +44,12 @@ fun DiaryScreen(
  */
 // TODO: To be changed using the Database and ViewModel with real pictures.
 @Composable
-fun DiaryBody(emotions: List<String>, onBackButtonClicked: () -> Unit) {
+fun DiaryBody(
+    emotions: List<String>,
+    onBackButtonClicked: () -> Unit,
+    onTakePictureClicked: () -> Unit
+) {
+
 // Wrapping it in a Box to have the footer buttons at the bottom of the screen.
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
@@ -54,7 +60,7 @@ fun DiaryBody(emotions: List<String>, onBackButtonClicked: () -> Unit) {
             }
         } // End of LazyColumn
 
-        // Footer Buttons
+        // FOOTER BUTTONS //
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,7 +75,7 @@ fun DiaryBody(emotions: List<String>, onBackButtonClicked: () -> Unit) {
             // TAKE PICTURE BUTTON //
             // TODO: This is going to be used in the game as well. To Make a reusable composable.
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onTakePictureClicked() },
                 modifier = Modifier
                     .sizeIn(minWidth = 124.dp, minHeight = 62.dp)
                     .padding(8.dp),
@@ -108,11 +114,10 @@ fun CategoryList(category: String) {
             } // End of for loop
         } // End of LazyRow item
     }
-
-}
+} // End of CategoryList Composable
 
 @Composable
 @Preview
 fun DiaryScreenPreview() {
-    DiaryScreen(onBackButtonClicked = {})
+    DiaryScreen(onBackButtonClicked = {}, onTakePictureClicked = {})
 }

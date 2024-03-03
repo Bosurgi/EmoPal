@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.dissertation.emopal.routes.Routes
+import com.dissertation.emopal.ui.components.camera.CameraView
 import com.dissertation.emopal.ui.screens.diary.DiaryScreen
 import com.dissertation.emopal.ui.screens.home.HomeScreen
 import com.dissertation.emopal.ui.screens.play.Level
@@ -67,9 +68,18 @@ fun EmoPalApp(
                 )
             } // End of Home Screen for NavGraphBuilder
 
-            composable(route = Routes.DIARY.name) {
-                DiaryScreen(onBackButtonClicked = navigateBackToHome)
-            } // End of Diary Screen for NavGraphBuilder
+            // DIARY SCREEN NAVIGATION GRAPH //
+            navigation(startDestination = Routes.DIARY.name, route = Routes.NESTED_DIARY.name) {
+                composable(route = Routes.DIARY.name) {
+                    DiaryScreen(onBackButtonClicked = navigateBackToHome, onTakePictureClicked = {
+                        navController.navigate(Routes.CAMERA.name)
+                    })
+                }
+                // TODO: Add Back button function to navigate back to the Diary Screen
+                composable(route = Routes.CAMERA.name) {
+                    CameraView()
+                }
+            } // End of Nested Navigation Graph for Diary Screen
 
             // Nested Navigation Graph from PLAY Screen //
             navigation(
