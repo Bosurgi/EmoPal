@@ -12,6 +12,7 @@ import androidx.room.RoomDatabase
  * @Date: 02/03/2024
  */
 
+//@TypeConverters(ImageConverter::class)
 @Database(
     entities = [DiaryPictureModel::class],
     version = 1,
