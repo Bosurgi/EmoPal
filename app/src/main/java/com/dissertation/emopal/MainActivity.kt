@@ -7,8 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.dissertation.emopal.ui.theme.EmoPalTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,6 +28,7 @@ class MainActivity : ComponentActivity() {
                      * This is the main entry point for the app
                      */
                     EmoPalApp()
+
                 }
             }
         }
