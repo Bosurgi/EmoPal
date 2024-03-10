@@ -20,7 +20,7 @@ import com.dissertation.emopal.ui.screens.play.PlayScreen
 
 @Composable
 fun EmoPalApp(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
 //    val cameraViewModel: CameraViewModel = viewModel()
 

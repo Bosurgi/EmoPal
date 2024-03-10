@@ -30,7 +30,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import java.util.concurrent.Executor
 
 /**
@@ -50,7 +50,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
     cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     previewView.controller = cameraController
 
-    val cameraViewModel: CameraViewModel = viewModel()
+    val cameraViewModel: CameraViewModel = hiltViewModel()
 
     fun takePicture(
         controller: LifecycleCameraController,
