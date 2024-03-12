@@ -66,18 +66,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                     // TODO: Rotate Bitmap
                     super.onCaptureSuccess(image)
                     val bitmap = image.toBitmap()
-//                    cameraViewModel.savePicture(bitmap)
                     onTakePhoto(bitmap)
-
-//                    val bitmap = image.toBitmap()
-//                    val base64String = converter.bitmapToBase64(bitmap)
-//
-//                    val pictureToSave = DiaryPictureModel(
-//                        pictureData = base64String,
-//                        pictureDate = image.imageInfo.timestamp.toString(),
-//                        pictureEmotion = "Happy"
-//                    )
-
 
                     // Close the image to free up the resources
                     image.close()

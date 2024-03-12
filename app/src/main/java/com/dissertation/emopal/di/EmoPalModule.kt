@@ -1,5 +1,6 @@
 package com.dissertation.emopal.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.dissertation.emopal.data.DiaryPictureDao
@@ -48,5 +49,9 @@ object EmoPalModule {
     fun provideRepository(pictureDao: DiaryPictureDao): ImageRepository {
         return ImageRepository(pictureDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideContext(application: Application): Context = application.applicationContext
 
 }

@@ -31,6 +31,15 @@ fun DiaryScreen(
     onBackButtonClicked: () -> Unit,
     onTakePictureClicked: () -> Unit,
 ) {
+    // TODO: Implement the below
+//    val diaryViewModel: DiaryViewModel = hiltViewModel()
+//    val pictures by remember { diaryViewModel.pictures }
+//
+//    pictures.forEach { picture ->
+//        picture.pictureData
+//    }
+
+
     // TODO: Use the ViewModel to get the list of emotions from the Database.
     val emotions = listOf("Happy", "Sad", "Angry", "Surprise")
     DiaryBody(emotions, onBackButtonClicked, onTakePictureClicked)
