@@ -1,6 +1,11 @@
 package com.dissertation.emopal.ui.components.camera
 
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +29,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import java.util.concurrent.Executor
 
 /**
  * CameraView Composable which contains the camera preview and the switch camera button.
@@ -41,6 +49,37 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
     cameraController.bindToLifecycle(lifecycleOwner)
     cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     previewView.controller = cameraController
+
+    val cameraViewModel: CameraViewModel = hiltViewModel()
+
+    fun takePicture(
+        controller: LifecycleCameraController,
+//        cameraViewModel: CameraViewModel,
+        onTakePhoto: (Bitmap) -> Unit
+    ) {
+        val executor: Executor = ContextCompat.getMainExecutor(applicationContext)
+
+        controller.takePicture(
+            executor,
+            object : ImageCapture.OnImageCapturedCallback() {
+                override fun onCaptureSuccess(image: ImageProxy) {
+                    // TODO: Rotate Bitmap
+                    super.onCaptureSuccess(image)
+                    val bitmap = image.toBitmap()
+                    onTakePhoto(bitmap)
+
+                    // Close the image to free up the resources
+                    image.close()
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    super.onError(exception)
+                    Log.e("Camera", "Error taking picture", exception)
+                }
+            }
+        )
+    }
+
 
     Box(
         modifier = Modifier
@@ -95,7 +134,16 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
             horizontalArrangement = Arrangement.Center
         ) {
 
-            IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(128.dp)) {
+            IconButton(
+                onClick = {
+                    takePicture(
+                        controller = cameraController,
+                        // Delegating the save picture to the View Model
+                        onTakePhoto = cameraViewModel::savePicture
+                    )
+                },
+                modifier = Modifier.size(128.dp)
+            ) {
                 Icon(
                     imageVector = Icons.Default.Camera,
                     contentDescription = "Take Picture"

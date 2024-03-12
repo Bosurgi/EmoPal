@@ -20,8 +20,10 @@ import com.dissertation.emopal.ui.screens.play.PlayScreen
 
 @Composable
 fun EmoPalApp(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
+//    val cameraViewModel: CameraViewModel = viewModel()
+
     /**
      * Navigate back to the Home Screen lambda function
      */
@@ -83,9 +85,12 @@ fun EmoPalApp(
                         navController.navigate(Routes.CAMERA.name)
                     })
                 }
-                // TODO: Add Back button function to navigate back to the Diary Screen
                 composable(route = Routes.CAMERA.name) {
-                    CameraView(navigateBackToDiary)
+                    CameraView(
+                        navigateBackToDiary,
+                        // TODO: Experiment without passed ViewModel
+//                        cameraViewModel
+                    )
                 }
             } // End of Nested Navigation Graph for Diary Screen
 
