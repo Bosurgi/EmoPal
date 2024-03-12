@@ -1,6 +1,5 @@
 package com.dissertation.emopal.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -41,6 +40,6 @@ interface DiaryPictureDao {
      * Gets all the pictures from the database.
      */
     @Query("SELECT * FROM diary_pictures")
-    fun getAllPictures(): LiveData<List<DiaryPictureModel>>
+    fun getAllPictures(): List<DiaryPictureModel>
 
 }

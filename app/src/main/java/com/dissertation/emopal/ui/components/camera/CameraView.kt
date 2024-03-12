@@ -80,7 +80,6 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
         )
     }
 
-
     Box(
         modifier = Modifier
             .fillMaxSize()
