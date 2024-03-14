@@ -1,14 +1,18 @@
 package com.dissertation.emopal.ui.screens.diary
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -28,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,6 +64,7 @@ fun DiaryScreen(
  * @param emotions List of emotions to be displayed.
  */
 // TODO: To be changed using the Database and ViewModel with real pictures.
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DiaryBody(
     emotions: List<String>,
@@ -68,12 +74,25 @@ fun DiaryBody(
 ) {
 
 // Wrapping it in a Box to have the footer buttons at the bottom of the screen.
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        LazyColumn(modifier = Modifier.fillMaxHeight(1f)) {
+            stickyHeader {
 
+            }
+            // TODO: Adjusted with different components divided by emotions
             items(emotions.size) { index ->
                 CategoryList(emotions[index], pictures)
                 Divider()
+            }
+            item {
+                Spacer(modifier = Modifier.height(
+                    with(LocalDensity.current) {
+                        90.dp
+                    }
+                ))
             }
         } // End of LazyColumn
 
