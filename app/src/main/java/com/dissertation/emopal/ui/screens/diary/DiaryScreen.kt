@@ -3,6 +3,7 @@ package com.dissertation.emopal.ui.screens.diary
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -106,6 +110,9 @@ fun DiaryBody(
  */
 @Composable
 fun CategoryList(category: String, pictures: List<Bitmap>) {
+
+    var activePicture by remember { mutableStateOf<Bitmap?>(null) }
+
     if (pictures.isEmpty()) {
         Box(
             modifier = Modifier.padding(16.dp),
@@ -124,20 +131,50 @@ fun CategoryList(category: String, pictures: List<Bitmap>) {
         Divider()
         LazyRow {
             items(pictures) { picture ->
-                PictureBox(picture)
+                PictureBox(picture, onClick = { activePicture = picture })
             }
         }
     }
+    // If the active picture is selected then it will enlarge it for the size of the parent component.
+    if (activePicture != null) {
+        FullScreenImage(photo = pictures.first { it == activePicture!! },
+            onDismiss = { activePicture = null })
+    }
 } // End of CategoryList Composable
 
+/**
+ * Full Screen Image Composable which displays the image in full screen based on the parent component.
+ * @param photo The photo to be displayed.
+ * @param onDismiss The lambda to dismiss the full screen image.
+ */
 @Composable
-fun PictureBox(picture: Bitmap) {
+fun FullScreenImage(photo: Bitmap, onDismiss: () -> Unit) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            bitmap = photo.asImageBitmap(),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable { onDismiss() }
+        )
+    }
+}
+
+/**
+ * Picture Box Composable which displays the picture in a box with a click listener.
+ */
+@Composable
+fun PictureBox(picture: Bitmap, onClick: () -> Unit) {
     Image(
         bitmap = picture.asImageBitmap(),
         contentDescription = null,
         modifier = Modifier
             .size(100.dp)
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable { onClick() },
     )
 }
 
