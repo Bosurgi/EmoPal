@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -26,9 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -39,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dissertation.emopal.data.DiaryViewModel
 import com.dissertation.emopal.ui.components.BackButton
+import com.dissertation.emopal.ui.components.PictureCase
 
 /**
  * Diary Screen Composable which contains the list of emotions and the images.
@@ -48,13 +44,25 @@ fun DiaryScreen(
     onBackButtonClicked: () -> Unit,
     onTakePictureClicked: () -> Unit,
 ) {
-    // TODO: Implement the below
-    val emotions = listOf("Happy", "Sad", "Angry", "Surprise")
+    // TODO: To use R.String for the emotions for internationalisation and less errors
+    val emotions = listOf("Happy", "Sad", "Angry", "Surprised")
 
     val viewModel: DiaryViewModel = hiltViewModel()
-    val pictures by viewModel.pictures.collectAsState()
+    // Collecting the pictures from the ViewModel
+    val happyPictures by viewModel.happyPictures.collectAsState(emptyList())
+    val sadPictures by viewModel.sadPictures.collectAsState(emptyList())
+    val angryPictures by viewModel.angryPictures.collectAsState(emptyList())
+    val surprisedPictures by viewModel.surprisedPictures.collectAsState(emptyList())
 
-    DiaryBody(emotions, onBackButtonClicked, onTakePictureClicked, pictures)
+    DiaryBody(
+        emotions,
+        onBackButtonClicked,
+        onTakePictureClicked,
+        happyPictures,
+        sadPictures,
+        angryPictures,
+        surprisedPictures
+    )
 }
 
 /**
@@ -70,7 +78,11 @@ fun DiaryBody(
     emotions: List<String>,
     onBackButtonClicked: () -> Unit,
     onTakePictureClicked: () -> Unit,
-    pictures: List<Bitmap>
+    happyPictures: List<Bitmap>,
+    sadPictures: List<Bitmap>,
+    angryPictures: List<Bitmap>,
+    surprisedPictures: List<Bitmap>
+
 ) {
 
 // Wrapping it in a Box to have the footer buttons at the bottom of the screen.
@@ -82,9 +94,16 @@ fun DiaryBody(
             stickyHeader {
 
             }
-            // TODO: Adjusted with different components divided by emotions
+            // TODO: Using String Resources (R.string) for the emotions
             items(emotions.size) { index ->
-                CategoryList(emotions[index], pictures)
+                val picturesForCategory = when (emotions[index]) {
+                    "Happy" -> happyPictures
+                    "Sad" -> sadPictures
+                    "Angry" -> angryPictures
+                    "Surprised" -> surprisedPictures
+                    else -> emptyList()
+                }
+                PictureCase(picturesForCategory, emotions[index])
                 Divider()
             }
             item {
@@ -123,43 +142,45 @@ fun DiaryBody(
     } // End of Box
 } // End of Composable
 
-/**
- * Category List Composable which contains the category name and the images related to such category.
- * @param category Category name to be displayed.
- */
-@Composable
-fun CategoryList(category: String, pictures: List<Bitmap>) {
 
-    var activePicture by remember { mutableStateOf<Bitmap?>(null) }
-
-    if (pictures.isEmpty()) {
-        Box(
-            modifier = Modifier.padding(16.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Feels Empty Here...Take a Picture")
-        }
-    } else {
-        Text(
-            text = category,
-            modifier = Modifier
-                .padding(16.dp),
-            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-            fontFamily = MaterialTheme.typography.headlineLarge.fontFamily
-        )
-        Divider()
-        LazyRow {
-            items(pictures) { picture ->
-                PictureBox(picture, onClick = { activePicture = picture })
-            }
-        }
-    }
-    // If the active picture is selected then it will enlarge it for the size of the parent component.
-    if (activePicture != null) {
-        FullScreenImage(photo = pictures.first { it == activePicture!! },
-            onDismiss = { activePicture = null })
-    }
-} // End of CategoryList Composable
+//
+///**
+// * Category List Composable which contains the category name and the images related to such category.
+// * @param category Category name to be displayed.
+// */
+//@Composable
+//fun CategoryList(category: String, pictures: List<Bitmap>) {
+//
+//    var activePicture by remember { mutableStateOf<Bitmap?>(null) }
+//
+//    if (pictures.isEmpty()) {
+//        Box(
+//            modifier = Modifier.padding(16.dp),
+//            contentAlignment = Alignment.Center
+//        ) {
+//            Text("Feels Empty Here...Take a Picture")
+//        }
+//    } else {
+//        Text(
+//            text = category,
+//            modifier = Modifier
+//                .padding(16.dp),
+//            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+//            fontFamily = MaterialTheme.typography.headlineLarge.fontFamily
+//        )
+//        Divider()
+//        LazyRow {
+//            items(pictures) { picture ->
+//                PictureBox(picture, onClick = { activePicture = picture })
+//            }
+//        }
+//    }
+//    // If the active picture is selected then it will enlarge it for the size of the parent component.
+//    if (activePicture != null) {
+//        FullScreenImage(photo = pictures.first { it == activePicture!! },
+//            onDismiss = { activePicture = null })
+//    }
+//} // End of CategoryList Composable
 
 /**
  * Full Screen Image Composable which displays the image in full screen based on the parent component.

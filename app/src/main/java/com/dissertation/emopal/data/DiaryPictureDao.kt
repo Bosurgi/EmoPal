@@ -42,4 +42,11 @@ interface DiaryPictureDao {
     @Query("SELECT * FROM diary_pictures")
     fun getAllPictures(): List<DiaryPictureModel>
 
+    /**
+     * Gets the pictures by emotion from the database.
+     * @param emotion The emotion to search.
+     */
+    @Query("SELECT * FROM diary_pictures WHERE pictureEmotion = :emotion")
+    fun getPicturesByEmotion(emotion: String): List<DiaryPictureModel>
+
 }
