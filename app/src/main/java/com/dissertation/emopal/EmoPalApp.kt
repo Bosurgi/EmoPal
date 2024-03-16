@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.dissertation.emopal.routes.Routes
+import com.dissertation.emopal.ui.components.camera.CameraView
 import com.dissertation.emopal.ui.screens.diary.DiaryScreen
 import com.dissertation.emopal.ui.screens.home.HomeScreen
 import com.dissertation.emopal.ui.screens.play.Level
@@ -19,8 +20,10 @@ import com.dissertation.emopal.ui.screens.play.PlayScreen
 
 @Composable
 fun EmoPalApp(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
+//    val cameraViewModel: CameraViewModel = viewModel()
+
     /**
      * Navigate back to the Home Screen lambda function
      */
@@ -35,6 +38,14 @@ fun EmoPalApp(
     val navigateBackToPlay: () -> Unit = {
         navController.navigate(Routes.NESTED_PLAY.name) {
             popUpTo(Routes.NESTED_PLAY.name) {
+                inclusive = true
+            }
+        }
+    } // End of Lambda
+
+    val navigateBackToDiary: () -> Unit = {
+        navController.navigate(Routes.NESTED_DIARY.name) {
+            popUpTo(Routes.NESTED_DIARY.name) {
                 inclusive = true
             }
         }
@@ -67,9 +78,21 @@ fun EmoPalApp(
                 )
             } // End of Home Screen for NavGraphBuilder
 
-            composable(route = Routes.DIARY.name) {
-                DiaryScreen(onBackButtonClicked = navigateBackToHome)
-            } // End of Diary Screen for NavGraphBuilder
+            // DIARY SCREEN NAVIGATION GRAPH //
+            navigation(startDestination = Routes.DIARY.name, route = Routes.NESTED_DIARY.name) {
+                composable(route = Routes.DIARY.name) {
+                    DiaryScreen(onBackButtonClicked = navigateBackToHome, onTakePictureClicked = {
+                        navController.navigate(Routes.CAMERA.name)
+                    })
+                }
+                composable(route = Routes.CAMERA.name) {
+                    CameraView(
+                        navigateBackToDiary,
+                        // TODO: Experiment without passed ViewModel
+//                        cameraViewModel
+                    )
+                }
+            } // End of Nested Navigation Graph for Diary Screen
 
             // Nested Navigation Graph from PLAY Screen //
             navigation(
