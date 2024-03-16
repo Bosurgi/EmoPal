@@ -57,7 +57,7 @@ fun HomeScreen(
                     .weight(1F, fill = true),
                 painter = painterResource(id = R.drawable.smiley_bee),
                 // TODO: Add to string Resource
-                contentDescription = "Smiley Cat",
+                contentDescription = "Smiley Bee",
             )
 
             // PLAY BUTTON //

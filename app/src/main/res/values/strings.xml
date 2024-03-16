@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EmoPal</string>
+    <string name="angry">angry</string>
+    <string name="surprised">surprised</string>
+    <string name="happy">happy</string>
+    <string name="sad">sad</string>
 </resources>
