@@ -1,6 +1,5 @@
 package com.dissertation.emopal.data
 
-import androidx.lifecycle.LiveData
 import javax.inject.Inject
 
 /**
@@ -13,7 +12,7 @@ class ImageRepository @Inject constructor(private val pictureDao: DiaryPictureDa
     /**
      * Gets all the pictures from the database.
      */
-    fun getAllPictures(): LiveData<List<DiaryPictureModel>> = pictureDao.getAllPictures()
+    fun getAllPictures(): List<DiaryPictureModel> = pictureDao.getAllPictures()
 
     /**
      * Inserts a picture in the database.
@@ -29,5 +28,8 @@ class ImageRepository @Inject constructor(private val pictureDao: DiaryPictureDa
      * Updates a picture in the database.
      */
     suspend fun updatePicture(picture: DiaryPictureModel) = pictureDao.updatePicture(picture)
+
+    suspend fun getPicturesByEmotion(emotion: String): List<DiaryPictureModel> =
+        pictureDao.getPicturesByEmotion(emotion)
 
 }

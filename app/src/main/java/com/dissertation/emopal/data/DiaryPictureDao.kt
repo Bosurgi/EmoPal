@@ -1,6 +1,5 @@
 package com.dissertation.emopal.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -41,6 +40,13 @@ interface DiaryPictureDao {
      * Gets all the pictures from the database.
      */
     @Query("SELECT * FROM diary_pictures")
-    fun getAllPictures(): LiveData<List<DiaryPictureModel>>
+    fun getAllPictures(): List<DiaryPictureModel>
+
+    /**
+     * Gets the pictures by emotion from the database.
+     * @param emotion The emotion to search.
+     */
+    @Query("SELECT * FROM diary_pictures WHERE pictureEmotion = :emotion")
+    fun getPicturesByEmotion(emotion: String): List<DiaryPictureModel>
 
 }

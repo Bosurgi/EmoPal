@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dissertation.emopal.util.rotateBitmap
 import java.util.concurrent.Executor
 
 /**
@@ -63,11 +64,10 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
             executor,
             object : ImageCapture.OnImageCapturedCallback() {
                 override fun onCaptureSuccess(image: ImageProxy) {
-                    // TODO: Rotate Bitmap
                     super.onCaptureSuccess(image)
-                    val bitmap = image.toBitmap()
+                    // Creating the bitmap and rotating it
+                    val bitmap = image.toBitmap().rotateBitmap(image.imageInfo.rotationDegrees)
                     onTakePhoto(bitmap)
-
                     // Close the image to free up the resources
                     image.close()
                 }
@@ -79,7 +79,6 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
             }
         )
     }
-
 
     Box(
         modifier = Modifier
