@@ -2,6 +2,7 @@ package com.dissertation.emopal.ui.components.camera
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dissertation.emopal.BuildConfig
@@ -80,6 +81,7 @@ class CameraViewModel @Inject constructor(
                 visionClient.annotateImage(bitmap, featureType, maxResults)
             }
             val emotion = parseResponse(response)
+            Log.e("response", response)
 
             // Updating the database with the picture storing its path and the date of the picture
             val diaryPictureModel = DiaryPictureModel(
@@ -87,7 +89,6 @@ class CameraViewModel @Inject constructor(
                 pictureDate = currentDate,
                 pictureEmotion = emotion
             )
-
             repository.insertPicture(diaryPictureModel)
         }
 }

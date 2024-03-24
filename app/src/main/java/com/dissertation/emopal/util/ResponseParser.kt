@@ -33,17 +33,18 @@ class ResponseParser {
                         val surpriseLikelihood = annotation.optString("surpriseLikelihood")
 
                         // Updating the emotion based on the likelihood of the detected emotions
-                        emotion = if (joyLikelihood == "VERY_LIKELY" || joyLikelihood == "LIKELY") {
-                            "happy"
-                        } else if (sorrowLikelihood == "VERY_LIKELY" || sorrowLikelihood == "LIKELY") {
-                            "sad"
-                        } else if (angerLikelihood == "VERY_LIKELY" || angerLikelihood == "LIKELY") {
-                            "angry"
-                        } else if (surpriseLikelihood == "VERY_LIKELY" || surpriseLikelihood == "LIKELY") {
-                            "surprised"
-                        } else {
-                            "neutral"
-                        }
+                        emotion =
+                            if (joyLikelihood == "VERY_LIKELY" || joyLikelihood == "LIKELY" || joyLikelihood == "POSSIBLE") {
+                                "happy"
+                            } else if (sorrowLikelihood == "VERY_LIKELY" || sorrowLikelihood == "LIKELY" || sorrowLikelihood == "POSSIBLE") {
+                                "sad"
+                            } else if (angerLikelihood == "VERY_LIKELY" || angerLikelihood == "LIKELY" || angerLikelihood == "POSSIBLE") {
+                                "angry"
+                            } else if (surpriseLikelihood == "VERY_LIKELY" || surpriseLikelihood == "LIKELY" || surpriseLikelihood == "POSSIBLE") {
+                                "surprised"
+                            } else {
+                                "neutral"
+                            }
                     }
                 }
                 return emotion
