@@ -8,6 +8,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.SwitchCamera
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -56,7 +58,8 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
     fun takePicture(
         controller: LifecycleCameraController,
 //        cameraViewModel: CameraViewModel,
-        onTakePhoto: (Bitmap) -> Unit
+        onTakePhoto: (Bitmap) -> Unit,
+        onPictureTaken: () -> Unit
     ) {
         val executor: Executor = ContextCompat.getMainExecutor(applicationContext)
 
@@ -70,6 +73,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                     onTakePhoto(bitmap)
                     // Close the image to free up the resources
                     image.close()
+                    onPictureTaken()
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -132,22 +136,32 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                 .padding(16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-
+            // CAPTURE BUTTON //
             IconButton(
                 onClick = {
                     takePicture(
                         controller = cameraController,
                         // Delegating the save picture to the View Model
-                        onTakePhoto = cameraViewModel::savePicture
+                        onTakePhoto = cameraViewModel::savePicture,
+                        onPictureTaken = { onBackButtonClicked() }
                     )
                 },
-                modifier = Modifier.size(128.dp)
+                modifier = Modifier.size(116.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Camera,
-                    contentDescription = "Take Picture"
+                    contentDescription = "Take Picture",
+                    modifier = Modifier
+                        .size(116.dp)
+                        .background(
+                            MaterialTheme.colorScheme.background,
+                            MaterialTheme.shapes.small
+                        )
+                        .padding(16.dp)
                 )
             }
+
+
         }
 
     } // End of Box

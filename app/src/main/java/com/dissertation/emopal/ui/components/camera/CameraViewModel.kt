@@ -73,6 +73,7 @@ class CameraViewModel @Inject constructor(
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
             }
 
+            // API CALL //
             // Processing the Emotion of the picture
             val featureType = "FACE_DETECTION"
             val maxResults = 1
