@@ -10,7 +10,9 @@ import com.dissertation.emopal.data.ImageRepository
 import com.dissertation.emopal.util.FaceEmotionClient
 import com.dissertation.emopal.util.ResponseParser.Companion.parseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -73,7 +75,10 @@ class CameraViewModel @Inject constructor(
             // Processing the Emotion of the picture
             val featureType = "FACE_DETECTION"
             val maxResults = 1
-            val response = visionClient.annotateImage(bitmap, featureType, maxResults)
+            val response = withContext(Dispatchers.IO) {
+                // Calling the Vision API from different Thread
+                visionClient.annotateImage(bitmap, featureType, maxResults)
+            }
             val emotion = parseResponse(response)
 
             // Updating the database with the picture storing its path and the date of the picture
