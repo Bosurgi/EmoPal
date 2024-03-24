@@ -82,7 +82,7 @@ class CameraViewModel @Inject constructor(
                 visionClient.annotateImage(bitmap, featureType, maxResults)
             }
             val emotion = parseResponse(response)
-            Log.e("response", response)
+            Log.d("response", response)
 
             // Updating the database with the picture storing its path and the date of the picture
             val diaryPictureModel = DiaryPictureModel(

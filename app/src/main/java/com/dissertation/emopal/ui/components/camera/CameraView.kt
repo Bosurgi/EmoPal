@@ -59,7 +59,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
         controller: LifecycleCameraController,
 //        cameraViewModel: CameraViewModel,
         onTakePhoto: (Bitmap) -> Unit,
-        onPictureTaken: () -> Unit
+//        onPictureTaken: () -> Unit
     ) {
         val executor: Executor = ContextCompat.getMainExecutor(applicationContext)
 
@@ -73,7 +73,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                     onTakePhoto(bitmap)
                     // Close the image to free up the resources
                     image.close()
-                    onPictureTaken()
+//                    onPictureTaken()
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -143,7 +143,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                         controller = cameraController,
                         // Delegating the save picture to the View Model
                         onTakePhoto = cameraViewModel::savePicture,
-                        onPictureTaken = { onBackButtonClicked() }
+//                        onPictureTaken = { onBackButtonClicked() }
                     )
                 },
                 modifier = Modifier.size(116.dp)
