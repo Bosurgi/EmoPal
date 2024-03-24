@@ -34,15 +34,15 @@ class ResponseParser {
 
                         // Updating the emotion based on the likelihood of the detected emotions
                         emotion = if (joyLikelihood == "VERY_LIKELY" || joyLikelihood == "LIKELY") {
-                            "Happy"
+                            "happy"
                         } else if (sorrowLikelihood == "VERY_LIKELY" || sorrowLikelihood == "LIKELY") {
-                            "Sad"
+                            "sad"
                         } else if (angerLikelihood == "VERY_LIKELY" || angerLikelihood == "LIKELY") {
-                            "Angry"
+                            "angry"
                         } else if (surpriseLikelihood == "VERY_LIKELY" || surpriseLikelihood == "LIKELY") {
-                            "Surprised"
+                            "surprised"
                         } else {
-                            "Neutral"
+                            "neutral"
                         }
                     }
                 }
