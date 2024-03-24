@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -10,6 +12,12 @@ android {
     compileSdk = 34
 
     defaultConfig {
+        android.buildFeatures.buildConfig = true
+        // Fetching the API Key property
+        val properties = Properties()
+        properties.load(project.rootProject.file("api.properties").inputStream())
+        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+
         applicationId = "com.dissertation.emopal"
         minSdk = 30
         targetSdk = 34
