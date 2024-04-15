@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "game_images")
 data class GameImageModel(
     @PrimaryKey(autoGenerate = true) val pictureId: Int = 0,
-    val picturePath: String,
+    val pictureName: String,
     val level: String,
     val pictureEmotion: String,
 )
