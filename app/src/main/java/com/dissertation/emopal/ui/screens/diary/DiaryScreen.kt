@@ -15,12 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,10 +27,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dissertation.emopal.data.DiaryViewModel
 import com.dissertation.emopal.ui.components.BackButton
+import com.dissertation.emopal.ui.components.GenericButton
 import com.dissertation.emopal.ui.components.PictureCase
 
 /**
@@ -128,16 +125,7 @@ fun DiaryBody(
             BackButton(onBackButtonClicked = onBackButtonClicked)
 
             // TAKE PICTURE BUTTON //
-            // TODO: This is going to be used in the game as well. To Make a reusable composable.
-            Button(
-                onClick = { onTakePictureClicked() },
-                modifier = Modifier
-                    .sizeIn(minWidth = 124.dp, minHeight = 62.dp)
-                    .padding(8.dp),
-                shape = MaterialTheme.shapes.small
-            ) {
-                Text(text = "Take Picture", fontSize = 24.sp)
-            }
+            GenericButton(title = "Take Picture", onClick = onTakePictureClicked)
         } // End of Row
     } // End of Box
 } // End of Composable
