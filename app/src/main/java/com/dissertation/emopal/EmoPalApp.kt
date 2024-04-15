@@ -112,17 +112,25 @@ fun EmoPalApp(
 
                 composable(route = Routes.LEVEL1.name) {
                     /* TODO: Implement Actual mini-games for each Level */
-                    Level(level = "1", onBackButtonClicked = navigateBackToPlay)
+                    Level(
+                        level = "1",
+                        onBackButtonClicked = navigateBackToPlay,
+                        onTakePicture = {
+                            // TODO: Fix implement new camera
+                        },
+                        leftImageResource = "",
+                        rightImageResource = ""
+                    )
                 }
 
                 composable(route = Routes.LEVEL2.name) {
                     /* TODO: Implement Actual mini-games for each Level */
-                    Level(level = "2", onBackButtonClicked = navigateBackToPlay)
+//                    Level(level = "2", onBackButtonClicked = navigateBackToPlay)
                 }
 
                 composable(route = Routes.LEVEL3.name) {
                     /* TODO: Implement Actual mini-games for each Level */
-                    Level(level = "3", onBackButtonClicked = navigateBackToPlay)
+//                    Level(level = "3", onBackButtonClicked = navigateBackToPlay)
                 }
             } // End of Nested Navigation Graph for Play Screen
 

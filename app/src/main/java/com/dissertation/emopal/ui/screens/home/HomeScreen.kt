@@ -108,7 +108,6 @@ fun HomeScreen(
 
                     // HELP BUTTON //
                     Button(
-                        // TODO: Temporary function to test the Vision API
                         onClick = { onHelpClickPressed() },
                         modifier = Modifier.sizeIn(minWidth = 124.dp, minHeight = 62.dp),
                         shape = MaterialTheme.shapes.small,
