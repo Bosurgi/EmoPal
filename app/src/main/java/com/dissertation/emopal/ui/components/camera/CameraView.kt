@@ -75,7 +75,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                     image.close()
 //                    onPictureTaken()
                 }
-
+                
                 override fun onError(exception: ImageCaptureException) {
                     super.onError(exception)
                     Log.e("Camera", "Error taking picture", exception)
