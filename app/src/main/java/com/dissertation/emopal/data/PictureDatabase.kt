@@ -11,13 +11,14 @@ import androidx.room.RoomDatabase
  */
 
 @Database(
-    entities = [DiaryPictureModel::class],
+    entities = [DiaryPictureModel::class, GameImageModel::class],
     version = 1,
     exportSchema = false
 )
-abstract class DiaryPictureDatabase : RoomDatabase() {
+abstract class PictureDatabase : RoomDatabase() {
 
     abstract val diaryPictureDao: DiaryPictureDao
+    abstract val gameImageDao: GameImageDao
 
     // NOTE: The code below is commented out because of using Dependency Injection with Dagger Hilt
 //    companion object {

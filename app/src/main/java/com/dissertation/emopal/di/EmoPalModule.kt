@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.dissertation.emopal.data.DiaryPictureDao
-import com.dissertation.emopal.data.DiaryPictureDatabase
 import com.dissertation.emopal.data.ImageRepository
+import com.dissertation.emopal.data.PictureDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,10 +24,10 @@ object EmoPalModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context): DiaryPictureDatabase {
+    fun provideDatabase(@ApplicationContext appContext: Context): PictureDatabase {
         return Room.databaseBuilder(
             appContext,
-            DiaryPictureDatabase::class.java,
+            PictureDatabase::class.java,
             "diary_picture_database"
         )
             // If the schema changes we can add migration logic here.
@@ -40,7 +40,7 @@ object EmoPalModule {
 
     @Provides
     @Singleton
-    fun provideDao(database: DiaryPictureDatabase): DiaryPictureDao {
+    fun provideDao(database: PictureDatabase): DiaryPictureDao {
         return database.diaryPictureDao
     }
 
