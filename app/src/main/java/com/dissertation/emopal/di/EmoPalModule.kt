@@ -8,11 +8,13 @@ import com.dissertation.emopal.data.GameImageDao
 import com.dissertation.emopal.data.GameImageRepository
 import com.dissertation.emopal.data.ImageRepository
 import com.dissertation.emopal.data.PictureDatabase
+import com.dissertation.emopal.util.GameDatabaseInitialiser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Provider
 import javax.inject.Singleton
 
 /**
@@ -26,7 +28,10 @@ object EmoPalModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context): PictureDatabase {
+    fun provideDatabase(
+        @ApplicationContext appContext: Context,
+        imageProvider: Provider<GameImageDao>
+    ): PictureDatabase {
         return Room.databaseBuilder(
             appContext,
             PictureDatabase::class.java,
@@ -34,6 +39,10 @@ object EmoPalModule {
         )
             // If the schema changes we can add migration logic here.
             .fallbackToDestructiveMigration()
+
+            .addCallback(
+                GameDatabaseInitialiser(gameImageProvider = imageProvider, context = appContext)
+            )
 
             // If we have an asset to create the database from uncomment line below
             // .createFromAsset("YOUR_DATABASE_NAME.db")
