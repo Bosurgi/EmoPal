@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.dissertation.emopal.data.DiaryPictureDao
+import com.dissertation.emopal.data.GameImageDao
+import com.dissertation.emopal.data.GameImageRepository
 import com.dissertation.emopal.data.ImageRepository
 import com.dissertation.emopal.data.PictureDatabase
 import dagger.Module
@@ -28,7 +30,7 @@ object EmoPalModule {
         return Room.databaseBuilder(
             appContext,
             PictureDatabase::class.java,
-            "diary_picture_database"
+            "picture_database"
         )
             // If the schema changes we can add migration logic here.
             .fallbackToDestructiveMigration()
@@ -40,14 +42,26 @@ object EmoPalModule {
 
     @Provides
     @Singleton
-    fun provideDao(database: PictureDatabase): DiaryPictureDao {
+    fun provideDiaryPictureDao(database: PictureDatabase): DiaryPictureDao {
         return database.diaryPictureDao
     }
 
     @Provides
     @Singleton
-    fun provideRepository(pictureDao: DiaryPictureDao): ImageRepository {
+    fun provideGameImageDao(database: PictureDatabase): GameImageDao {
+        return database.gameImageDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideDiaryRepository(pictureDao: DiaryPictureDao): ImageRepository {
         return ImageRepository(pictureDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGameRepository(gameImageDao: GameImageDao): GameImageRepository {
+        return GameImageRepository(gameImageDao)
     }
 
     @Provides

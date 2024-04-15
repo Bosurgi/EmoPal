@@ -1,6 +1,7 @@
 package com.dissertation.emopal.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -31,6 +32,14 @@ interface GameImageDao {
     /**
      * Deletes all the images from the database.
      */
-    @Query("DELETE FROM game_images")
-    suspend fun deleteAllImages()
+    @Delete
+    suspend fun deletePicture(gameImageModel: GameImageModel)
+
+    /**
+     * Gets the images by level from the database.
+     * @param level The level to search.
+     */
+    @Query("SELECT * FROM game_images WHERE level = :level")
+    suspend fun getImagesByLevel(level: String): List<GameImageModel>
+
 }
