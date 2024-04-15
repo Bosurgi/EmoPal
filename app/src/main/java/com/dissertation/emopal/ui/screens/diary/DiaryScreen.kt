@@ -142,46 +142,6 @@ fun DiaryBody(
     } // End of Box
 } // End of Composable
 
-
-//
-///**
-// * Category List Composable which contains the category name and the images related to such category.
-// * @param category Category name to be displayed.
-// */
-//@Composable
-//fun CategoryList(category: String, pictures: List<Bitmap>) {
-//
-//    var activePicture by remember { mutableStateOf<Bitmap?>(null) }
-//
-//    if (pictures.isEmpty()) {
-//        Box(
-//            modifier = Modifier.padding(16.dp),
-//            contentAlignment = Alignment.Center
-//        ) {
-//            Text("Feels Empty Here...Take a Picture")
-//        }
-//    } else {
-//        Text(
-//            text = category,
-//            modifier = Modifier
-//                .padding(16.dp),
-//            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-//            fontFamily = MaterialTheme.typography.headlineLarge.fontFamily
-//        )
-//        Divider()
-//        LazyRow {
-//            items(pictures) { picture ->
-//                PictureBox(picture, onClick = { activePicture = picture })
-//            }
-//        }
-//    }
-//    // If the active picture is selected then it will enlarge it for the size of the parent component.
-//    if (activePicture != null) {
-//        FullScreenImage(photo = pictures.first { it == activePicture!! },
-//            onDismiss = { activePicture = null })
-//    }
-//} // End of CategoryList Composable
-
 /**
  * Full Screen Image Composable which displays the image in full screen based on the parent component.
  * @param photo The photo to be displayed.

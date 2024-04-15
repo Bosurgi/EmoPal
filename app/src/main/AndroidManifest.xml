@@ -11,6 +11,9 @@
     <!-- Internet Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Account Permissions -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <application
         android:name=".EmoPalApplication"
         android:allowBackup="true"

@@ -2,12 +2,18 @@ package com.dissertation.emopal.ui.components.camera
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dissertation.emopal.BuildConfig
 import com.dissertation.emopal.data.DiaryPictureModel
 import com.dissertation.emopal.data.ImageRepository
+import com.dissertation.emopal.util.FaceEmotionClient
+import com.dissertation.emopal.util.ResponseParser.Companion.parseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -26,6 +32,9 @@ class CameraViewModel @Inject constructor(
     private val repository: ImageRepository,
     private val applicationContext: Context
 ) : ViewModel() {
+
+    private val apiKey = BuildConfig.API_KEY
+    private val visionClient = FaceEmotionClient(apiKey)
 
     /**
      * Function to save the picture taken by the user in the internal storage of the app.
@@ -64,13 +73,23 @@ class CameraViewModel @Inject constructor(
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
             }
 
+            // API CALL //
+            // Processing the Emotion of the picture
+            val featureType = "FACE_DETECTION"
+            val maxResults = 1
+            val response = withContext(Dispatchers.IO) {
+                // Calling the Vision API from different Thread
+                visionClient.annotateImage(bitmap, featureType, maxResults)
+            }
+            val emotion = parseResponse(response)
+            Log.d("response", response)
+
             // Updating the database with the picture storing its path and the date of the picture
             val diaryPictureModel = DiaryPictureModel(
                 picturePath = file.absolutePath,
                 pictureDate = currentDate,
-                pictureEmotion = ""
+                pictureEmotion = emotion
             )
-
             repository.insertPicture(diaryPictureModel)
         }
 }
