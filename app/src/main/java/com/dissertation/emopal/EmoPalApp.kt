@@ -93,7 +93,8 @@ fun EmoPalApp(
                         // Sending the Bitmap to the View Model
                         onTakePhoto = { bitmap ->
                             cameraViewModel.savePicture(bitmap)
-                        }
+                        },
+                        isButtonVisible = true
                     )
                 }
             } // End of Nested Navigation Graph for Diary Screen

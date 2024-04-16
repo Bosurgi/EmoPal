@@ -43,7 +43,11 @@ import java.util.concurrent.Executor
  */
 
 @Composable
-fun CameraView(onBackButtonClicked: () -> Unit, onTakePhoto: (Bitmap) -> Unit) {
+fun CameraView(
+    onBackButtonClicked: () -> Unit,
+    onTakePhoto: (Bitmap) -> Unit,
+    isButtonVisible: Boolean
+) {
     // The current application context
     val applicationContext = LocalContext.current
     val previewView: PreviewView = remember { PreviewView(applicationContext) }
@@ -91,76 +95,77 @@ fun CameraView(onBackButtonClicked: () -> Unit, onTakePhoto: (Bitmap) -> Unit) {
     ) {
         AndroidView(factory = { previewView }, modifier = Modifier.fillMaxSize())
 
-        // TOP ROW FOR THE SWITCH CAMERA AND BACK BUTTON //
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter)
-                .padding(32.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
-            // BACK ICON BUTTON //
-            IconButton(onClick = { onBackButtonClicked() }, modifier = Modifier.size(64.dp)) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back to Diary"
-                )
-            } // End of Back Icon Button
-
-            // SWITCH CAMERA ICON BUTTON //
-            IconButton(
-                onClick = {
-                    cameraController.cameraSelector =
-                        if (cameraController.cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
-                            CameraSelector.DEFAULT_FRONT_CAMERA
-                        } else {
-                            CameraSelector.DEFAULT_BACK_CAMERA
-                        }
-                },
+        if (isButtonVisible) {
+            // TOP ROW FOR THE SWITCH CAMERA AND BACK BUTTON //
+            Row(
                 modifier = Modifier
-                    .size(64.dp)
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .padding(32.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    imageVector = Icons.Default.SwitchCamera,
-                    contentDescription = "Swap Camera"
-                )
-            } // End of Icon Button
-        }
 
-        // BOTTOM ROW FOR THE CAPTURE BUTTON //
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            // CAPTURE BUTTON //
-            IconButton(
-                onClick = {
-                    takePicture(
-                        controller = cameraController,
-                        // Delegating the save picture to the View Model
-//                        onTakePhoto = cameraViewModel::savePicture,
-//                        onPictureTaken = { onBackButtonClicked() }
+                // BACK ICON BUTTON //
+                IconButton(onClick = { onBackButtonClicked() }, modifier = Modifier.size(64.dp)) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back to Diary"
                     )
-                },
-                modifier = Modifier.size(116.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Camera,
-                    contentDescription = "Take Picture",
+                } // End of Back Icon Button
+
+                // SWITCH CAMERA ICON BUTTON //
+                IconButton(
+                    onClick = {
+                        cameraController.cameraSelector =
+                            if (cameraController.cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+                                CameraSelector.DEFAULT_FRONT_CAMERA
+                            } else {
+                                CameraSelector.DEFAULT_BACK_CAMERA
+                            }
+                    },
                     modifier = Modifier
-                        .size(116.dp)
-                        .background(
-                            MaterialTheme.colorScheme.background,
-                            MaterialTheme.shapes.small
-                        )
-                        .padding(16.dp)
-                )
+                        .size(64.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.SwitchCamera,
+                        contentDescription = "Swap Camera"
+                    )
+                } // End of Icon Button
             }
 
+            // BOTTOM ROW FOR THE CAPTURE BUTTON //
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                // CAPTURE BUTTON //
+                IconButton(
+                    onClick = {
+                        takePicture(
+                            controller = cameraController,
+                            // Delegating the save picture to the View Model
+//                        onTakePhoto = cameraViewModel::savePicture,
+//                        onPictureTaken = { onBackButtonClicked() }
+                        )
+                    },
+                    modifier = Modifier.size(116.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Camera,
+                        contentDescription = "Take Picture",
+                        modifier = Modifier
+                            .size(116.dp)
+                            .background(
+                                MaterialTheme.colorScheme.background,
+                                MaterialTheme.shapes.small
+                            )
+                            .padding(16.dp)
+                    )
+                }
+            }
 
         }
 
