@@ -35,23 +35,28 @@ fun Level(
 ) {
     val orientation = LocalConfiguration.current.orientation
     val boxPadding = if (orientation == Configuration.ORIENTATION_LANDSCAPE) 8.dp else 32.dp
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            // Top Row for Level Information
+
+        // HEADER SECTION //
+        Column(modifier = Modifier.align(Alignment.TopCenter)) {
+            // Level Description //
             Text(
                 text = "Level $level",
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
             )
-
+        }
+        // MAIN BODY //
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
+        ) {
             // Middle Row for Images
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -81,14 +86,20 @@ fun Level(
                 }
             }
 
-            // Response Text
+            // Response Text //
             Text(
                 text = "Response text will appear here",
                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
-
-            // Bottom Row for Buttons
+        }
+        // FOOTER SECTION //
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -101,6 +112,7 @@ fun Level(
                 // Take Picture Button
                 GenericButton("Take Picture", onClick = onTakePicture)
             }
+
         }
     }
 }
