@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.dissertation.emopal.routes.Routes
 import com.dissertation.emopal.ui.components.camera.CameraView
+import com.dissertation.emopal.ui.components.camera.CameraViewModel
 import com.dissertation.emopal.ui.screens.diary.DiaryScreen
 import com.dissertation.emopal.ui.screens.home.HomeScreen
 import com.dissertation.emopal.ui.screens.play.Level
@@ -22,7 +24,7 @@ import com.dissertation.emopal.ui.screens.play.PlayScreen
 fun EmoPalApp(
     navController: NavHostController = rememberNavController(),
 ) {
-//    val cameraViewModel: CameraViewModel = viewModel()
+    val cameraViewModel: CameraViewModel = hiltViewModel()
 
     /**
      * Navigate back to the Home Screen lambda function
@@ -88,8 +90,10 @@ fun EmoPalApp(
                 composable(route = Routes.CAMERA.name) {
                     CameraView(
                         navigateBackToDiary,
-                        // TODO: Experiment without passed ViewModel
-//                        cameraViewModel
+                        // Sending the Bitmap to the View Model
+                        onTakePhoto = { bitmap ->
+                            cameraViewModel.savePicture(bitmap)
+                        }
                     )
                 }
             } // End of Nested Navigation Graph for Diary Screen

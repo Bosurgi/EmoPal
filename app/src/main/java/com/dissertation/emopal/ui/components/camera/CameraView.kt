@@ -43,7 +43,7 @@ import java.util.concurrent.Executor
  */
 
 @Composable
-fun CameraView(onBackButtonClicked: () -> Unit) {
+fun CameraView(onBackButtonClicked: () -> Unit, onTakePhoto: (Bitmap) -> Unit) {
     // The current application context
     val applicationContext = LocalContext.current
     val previewView: PreviewView = remember { PreviewView(applicationContext) }
@@ -58,7 +58,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
     fun takePicture(
         controller: LifecycleCameraController,
 //        cameraViewModel: CameraViewModel,
-        onTakePhoto: (Bitmap) -> Unit,
+//        onTakePhoto: (Bitmap) -> Unit,
 //        onPictureTaken: () -> Unit
     ) {
         val executor: Executor = ContextCompat.getMainExecutor(applicationContext)
@@ -75,7 +75,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                     image.close()
 //                    onPictureTaken()
                 }
-                
+
                 override fun onError(exception: ImageCaptureException) {
                     super.onError(exception)
                     Log.e("Camera", "Error taking picture", exception)
@@ -142,7 +142,7 @@ fun CameraView(onBackButtonClicked: () -> Unit) {
                     takePicture(
                         controller = cameraController,
                         // Delegating the save picture to the View Model
-                        onTakePhoto = cameraViewModel::savePicture,
+//                        onTakePhoto = cameraViewModel::savePicture,
 //                        onPictureTaken = { onBackButtonClicked() }
                     )
                 },
