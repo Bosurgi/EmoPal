@@ -118,7 +118,7 @@ fun EmoPalApp(
                         onTakePicture = {
                             // TODO: Fix implement new camera
                         },
-                        leftImageResource = "",
+//                        leftImageResource = "",
                         rightImageResource = ""
                     )
                 }

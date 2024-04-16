@@ -68,7 +68,6 @@ fun DiaryScreen(
  * followed by the images related to such category.
  * @param emotions List of emotions to be displayed.
  */
-// TODO: To be changed using the Database and ViewModel with real pictures.
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DiaryBody(
