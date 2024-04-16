@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dissertation.emopal.ui.components.BackButton
 import com.dissertation.emopal.ui.components.GenericButton
+import com.dissertation.emopal.ui.components.camera.CameraView
 
 @Composable
 fun Level(
@@ -44,6 +45,8 @@ fun Level(
     val viewModel: GameViewModel = hiltViewModel()
     val counter by viewModel.counter.collectAsState(0)
     val leftImageResource by viewModel.prompt.collectAsState()
+    val currentEmotion by viewModel.currentEmotion.collectAsState()
+    val userEmotion by viewModel.userEmotion.collectAsState()
     val isWinner by viewModel.isWinner.collectAsState(false)
 
 
@@ -99,10 +102,16 @@ fun Level(
                 Box(
                     modifier = Modifier
                         .size(200.dp)
-                        .background(Color.LightGray)
                         .padding(start = boxPadding)
                 ) {
                     // Load and display image here using rightImageResource
+                    CameraView(
+                        onBackButtonClicked = onBackButtonClicked,
+                        onTakePhoto = { bitmap ->
+                            //TODO: Display Picture in the box
+                        },
+                        isButtonVisible = false
+                    )
                 }
             }
 

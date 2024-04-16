@@ -9,10 +9,13 @@ import com.dissertation.emopal.BuildConfig
 import com.dissertation.emopal.data.GameImageModel
 import com.dissertation.emopal.data.GameImageRepository
 import com.dissertation.emopal.util.FaceEmotionClient
+import com.dissertation.emopal.util.ResponseParser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
@@ -39,6 +42,18 @@ class GameViewModel @Inject constructor(
     private val _prompt = MutableStateFlow<Bitmap?>(null)
     val prompt: StateFlow<Bitmap?> get() = _prompt
 
+    // User Picture
+    private val _userPicture = MutableStateFlow<Bitmap?>(null)
+    val userPicture: StateFlow<Bitmap?> get() = _userPicture
+
+    // Current Emotion to Match
+    private val _currentEmotion = MutableStateFlow<String>("")
+    val currentEmotion: StateFlow<String> get() = _currentEmotion
+
+    // User Emotion
+    private val _userEmotion = MutableStateFlow<String>("")
+    val userEmotion: StateFlow<String> get() = _userEmotion
+
     // Winner flag
     private val _isWinner = MutableStateFlow(false)
     val isWinner: StateFlow<Boolean> get() = _isWinner
@@ -46,10 +61,15 @@ class GameViewModel @Inject constructor(
     private lateinit var currentLevel: String
     private lateinit var allImages: List<GameImageModel>
 
+    // Initialising the images for Level 1
     init {
         loadImagesForLevel("level1")
     }
 
+    /**
+     * This function loads the images for the level passed as parameter.
+     * @param level The level to load.
+     */
     private fun loadImagesForLevel(level: String) {
         viewModelScope.launch {
             allImages = repository.getImagesByLevel(level)
@@ -57,12 +77,23 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    /**
+     * This function updates the prompt with a random image from the database.
+     */
+
     private fun updatePrompt() {
-        val randomImageName = allImages.random().pictureName
+        val randomImage = allImages.random()
+        val randomImageName = randomImage.pictureName
         val bitmap = loadImageFromAsset(randomImageName)
         _prompt.value = bitmap
+        _currentEmotion.value = randomImage.pictureEmotion
     }
 
+    /**
+     * This function loads an image from the assets folder.
+     * @param imageName The name of the image to load.
+     * @return The image as a Bitmap.
+     */
     private fun loadImageFromAsset(imageName: String): Bitmap? {
         return try {
             val inputStream = applicationContext.assets.open(imageName)
@@ -73,6 +104,25 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    fun takePicture() {
+        // TODO: Implement Logic when picture is taken
+    }
+
+    suspend fun getUserEmotion(bitmap: Bitmap): String {
+        // API CALL //
+        // Processing the Emotion of the picture
+        val featureType = "FACE_DETECTION"
+        val maxResults = 1
+        val response = withContext(Dispatchers.IO) {
+            // Calling the Vision API from different Thread
+            visionClient.annotateImage(bitmap, featureType, maxResults)
+        }
+        return ResponseParser.parseResponse(response)
+    }
+
+    /**
+     * This function increments the counter and checks if the player has won.
+     */
     fun incrementCounter() {
         _counter.value += 1
         if (_counter.value == 5) {

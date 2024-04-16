@@ -41,5 +41,4 @@ interface GameImageDao {
      */
     @Query("SELECT * FROM game_images WHERE level = :level")
     suspend fun getImagesByLevel(level: String): List<GameImageModel>
-
 }
