@@ -111,6 +111,12 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    /**
+     * This function is called when the user takes a picture.
+     * It processes the picture and checks if the emotion matches the user's emotion.
+     * It also increments the counter if the emotions match.
+     * @param userBitmap The picture taken by the user.
+     */
     fun takePicture(userBitmap: Bitmap) {
         // TODO: Implement Logic when picture is taken
         viewModelScope.launch {
@@ -128,6 +134,11 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    /**
+     * This function gets the emotion of the user from the picture taken.
+     * @param bitmap The picture taken by the user.
+     * @return The emotion of the user as a String
+     */
     private suspend fun getUserEmotion(bitmap: Bitmap): String {
         // API CALL //
         // Processing the Emotion of the picture
