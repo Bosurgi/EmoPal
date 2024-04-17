@@ -40,17 +40,17 @@ import com.dissertation.emopal.ui.components.camera.CameraView
 fun Level(
     level: String,
     onBackButtonClicked: () -> Unit,
-    onTakePicture: (Bitmap) -> Unit
+    onTakePicture: (Bitmap) -> Unit,
+    viewModel: GameViewModel
 ) {
     val orientation = LocalConfiguration.current.orientation
     val boxPadding = if (orientation == Configuration.ORIENTATION_LANDSCAPE) 8.dp else 32.dp
 
-    val viewModel: GameViewModel = hiltViewModel()
     val counter by viewModel.counter.collectAsState(0)
     val leftImageResource by viewModel.prompt.collectAsState()
     val currentEmotion by viewModel.currentEmotion.collectAsState()
     val userEmotion by viewModel.userEmotion.collectAsState()
-    val isEmotionMatch by viewModel.isEmotionMatch.collectAsState(false)
+    val isEmotionMatch by viewModel.isEmotionMatch.collectAsState()
     val isWinner by viewModel.isWinner.collectAsState(false)
     // Flag to trigger the snap of the picture
     var shouldTakePicture by remember { mutableStateOf(false) }
@@ -199,5 +199,6 @@ fun LevelScreenPreview() {
         level = "1",
         onBackButtonClicked = {},
         onTakePicture = {},
+        viewModel = hiltViewModel()
     )
 }

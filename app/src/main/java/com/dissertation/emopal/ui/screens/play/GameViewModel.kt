@@ -3,6 +3,7 @@ package com.dissertation.emopal.ui.screens.play
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dissertation.emopal.BuildConfig
@@ -47,7 +48,7 @@ class GameViewModel @Inject constructor(
     val userPicture: StateFlow<Bitmap?> get() = _userPicture
 
     // Current Emotion to Match
-    private val _currentEmotion = MutableStateFlow<String>("")
+    private var _currentEmotion = MutableStateFlow<String>("")
     val currentEmotion: StateFlow<String> get() = _currentEmotion
 
     // User Emotion
@@ -90,9 +91,10 @@ class GameViewModel @Inject constructor(
         // TODO: Remove image already taken
         val randomImage = allImages.random()
         val randomImageName = randomImage.pictureName
+        val emotion = randomImage.pictureEmotion
         val bitmap = loadImageFromAsset(randomImageName)
         _prompt.value = bitmap
-        _currentEmotion.value = randomImage.pictureEmotion
+        _currentEmotion.value = emotion
     }
 
     /**
@@ -113,12 +115,15 @@ class GameViewModel @Inject constructor(
     fun takePicture(userBitmap: Bitmap) {
         // TODO: Implement Logic when picture is taken
         viewModelScope.launch {
-//            val userEmotionResult = getUserEmotion(userBitmap)
-//            _userEmotion.value = userEmotionResult
+            val userEmotionResult = getUserEmotion(userBitmap)
+            _userEmotion.value = userEmotionResult
 
-//            val isMatch = _currentEmotion.value.equals(userEmotionResult, ignoreCase = true)
-//            _isEmotionMatch.value = isMatch
+            val isMatch = _currentEmotion.value.equals(userEmotionResult, ignoreCase = true)
+            _isEmotionMatch.value = isMatch
 
+            Log.d("game", "User Emotion: $userEmotionResult")
+            Log.d("game", "Current Emotion: ${_currentEmotion.value}")
+            Log.d("game", "Match: $isMatch")
         }
     }
 

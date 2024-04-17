@@ -126,6 +126,7 @@ fun EmoPalApp(
                         onTakePicture = { bitmap ->
                             gameViewModel.takePicture(bitmap)
                         },
+                        gameViewModel
                     )
                 }
 
