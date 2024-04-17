@@ -67,7 +67,7 @@ class GameViewModel @Inject constructor(
 
     // Initialising the images for Level 1
     init {
-        loadImagesForLevel("level1")
+        loadImagesForLevel("1")
     }
 
     /**
@@ -77,6 +77,7 @@ class GameViewModel @Inject constructor(
     private fun loadImagesForLevel(level: String) {
         viewModelScope.launch {
             allImages = repository.getImagesByLevel(level)
+            // TODO: Fix bug on first startup not loading pictures
             updatePrompt()
         }
     }
@@ -117,7 +118,7 @@ class GameViewModel @Inject constructor(
 
 //            val isMatch = _currentEmotion.value.equals(userEmotionResult, ignoreCase = true)
 //            _isEmotionMatch.value = isMatch
-            
+
         }
     }
 

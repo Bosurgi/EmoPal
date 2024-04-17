@@ -40,7 +40,7 @@ class GameDatabaseInitialiser(
     }
 
     /**
-     * Populates the database with the images for the mini game contained inthe assets directory.
+     * Populates the database with the images for the mini game contained in the assets directory.
      */
     private suspend fun populateDatabase() {
         val gameImageDao = gameImageProvider.get()
@@ -51,14 +51,14 @@ class GameDatabaseInitialiser(
             val level1Files = assetManager.list("level1")?.toList() ?: emptyList()
             for (dirName in level1Files) {
                 val subFolderFiles = assetManager.list("level1/$dirName")?.toList() ?: emptyList()
-                // Listing the subfolder files ('anger', 'happy', etc.)
+                // Listing the subfolder files ('angry', 'happy', etc.)
                 for (fileName in subFolderFiles) {
                     val pictureName = "level1/$dirName/$fileName"
                     // Inserting the reference to the database
                     gameImageDao.insertImage(
                         GameImageModel(
                             pictureName = pictureName,
-                            level = "level1",
+                            level = "1",
                             pictureEmotion = dirName
                         )
                     )
