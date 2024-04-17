@@ -76,6 +76,21 @@ fun Level(
                     .padding(16.dp)
                     .align(Alignment.CenterHorizontally)
             )
+            Text(
+                text = "Match the emotion",
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+            // Counter //
+            Text(
+                text = "Correct Matches: $counter / 10",
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
         }
         // MAIN BODY //
         Column(

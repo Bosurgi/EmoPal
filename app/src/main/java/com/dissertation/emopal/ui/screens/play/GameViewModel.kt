@@ -3,7 +3,6 @@ package com.dissertation.emopal.ui.screens.play
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dissertation.emopal.BuildConfig
@@ -121,9 +120,11 @@ class GameViewModel @Inject constructor(
             val isMatch = _currentEmotion.value.equals(userEmotionResult, ignoreCase = true)
             _isEmotionMatch.value = isMatch
 
-            Log.d("game", "User Emotion: $userEmotionResult")
-            Log.d("game", "Current Emotion: ${_currentEmotion.value}")
-            Log.d("game", "Match: $isMatch")
+            // Increment Counter if match
+            if (isMatch) {
+                incrementCounter()
+            }
+
         }
     }
 
@@ -142,9 +143,9 @@ class GameViewModel @Inject constructor(
     /**
      * This function increments the counter and checks if the player has won.
      */
-    fun incrementCounter() {
+    private fun incrementCounter() {
         _counter.value += 1
-        if (_counter.value == 5) {
+        if (_counter.value == 10) {
             _isWinner.value = true
         }
     }
