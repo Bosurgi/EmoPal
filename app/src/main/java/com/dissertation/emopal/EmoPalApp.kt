@@ -17,6 +17,7 @@ import com.dissertation.emopal.ui.components.camera.CameraView
 import com.dissertation.emopal.ui.components.camera.CameraViewModel
 import com.dissertation.emopal.ui.screens.diary.DiaryScreen
 import com.dissertation.emopal.ui.screens.home.HomeScreen
+import com.dissertation.emopal.ui.screens.play.GameViewModel
 import com.dissertation.emopal.ui.screens.play.Level
 import com.dissertation.emopal.ui.screens.play.PlayScreen
 
@@ -25,6 +26,7 @@ fun EmoPalApp(
     navController: NavHostController = rememberNavController(),
 ) {
     val cameraViewModel: CameraViewModel = hiltViewModel()
+    val gameViewModel: GameViewModel = hiltViewModel()
 
     /**
      * Navigate back to the Home Screen lambda function
@@ -94,7 +96,8 @@ fun EmoPalApp(
                         onTakePhoto = { bitmap ->
                             cameraViewModel.savePicture(bitmap)
                         },
-                        isButtonVisible = true
+                        isButtonVisible = true,
+                        shouldTakePicture = false
                     )
                 }
             } // End of Nested Navigation Graph for Diary Screen
@@ -120,11 +123,9 @@ fun EmoPalApp(
                     Level(
                         level = "1",
                         onBackButtonClicked = navigateBackToPlay,
-                        onTakePicture = {
-                            // TODO: Fix implement new camera
+                        onTakePicture = { bitmap ->
+                            gameViewModel.takePicture(bitmap)
                         },
-//                        leftImageResource = "",
-                        rightImageResource = ""
                     )
                 }
 

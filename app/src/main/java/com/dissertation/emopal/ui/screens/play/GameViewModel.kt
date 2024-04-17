@@ -54,6 +54,10 @@ class GameViewModel @Inject constructor(
     private val _userEmotion = MutableStateFlow<String>("")
     val userEmotion: StateFlow<String> get() = _userEmotion
 
+    // Flag if the emotions match
+    private val _isEmotionMatch = MutableStateFlow<Boolean?>(null)
+    val isEmotionMatch: StateFlow<Boolean?> get() = _isEmotionMatch
+
     // Winner flag
     private val _isWinner = MutableStateFlow(false)
     val isWinner: StateFlow<Boolean> get() = _isWinner
@@ -82,6 +86,7 @@ class GameViewModel @Inject constructor(
      */
 
     private fun updatePrompt() {
+        // TODO: Remove image already taken
         val randomImage = allImages.random()
         val randomImageName = randomImage.pictureName
         val bitmap = loadImageFromAsset(randomImageName)
@@ -104,11 +109,19 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun takePicture() {
+    fun takePicture(userBitmap: Bitmap) {
         // TODO: Implement Logic when picture is taken
+        viewModelScope.launch {
+//            val userEmotionResult = getUserEmotion(userBitmap)
+//            _userEmotion.value = userEmotionResult
+
+//            val isMatch = _currentEmotion.value.equals(userEmotionResult, ignoreCase = true)
+//            _isEmotionMatch.value = isMatch
+            
+        }
     }
 
-    suspend fun getUserEmotion(bitmap: Bitmap): String {
+    private suspend fun getUserEmotion(bitmap: Bitmap): String {
         // API CALL //
         // Processing the Emotion of the picture
         val featureType = "FACE_DETECTION"

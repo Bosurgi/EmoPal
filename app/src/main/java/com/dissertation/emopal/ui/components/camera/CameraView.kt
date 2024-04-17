@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +33,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dissertation.emopal.util.rotateBitmap
 import java.util.concurrent.Executor
 
@@ -46,7 +46,8 @@ import java.util.concurrent.Executor
 fun CameraView(
     onBackButtonClicked: () -> Unit,
     onTakePhoto: (Bitmap) -> Unit,
-    isButtonVisible: Boolean
+    isButtonVisible: Boolean,
+    shouldTakePicture: Boolean
 ) {
     // The current application context
     val applicationContext = LocalContext.current
@@ -57,13 +58,8 @@ fun CameraView(
     cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     previewView.controller = cameraController
 
-    val cameraViewModel: CameraViewModel = hiltViewModel()
-
     fun takePicture(
         controller: LifecycleCameraController,
-//        cameraViewModel: CameraViewModel,
-//        onTakePhoto: (Bitmap) -> Unit,
-//        onPictureTaken: () -> Unit
     ) {
         val executor: Executor = ContextCompat.getMainExecutor(applicationContext)
 
@@ -77,7 +73,6 @@ fun CameraView(
                     onTakePhoto(bitmap)
                     // Close the image to free up the resources
                     image.close()
-//                    onPictureTaken()
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -170,6 +165,13 @@ fun CameraView(
         }
 
     } // End of Box
+
+    // LaunchedEffect to trigger the camera to take a picture when the flag is set to true
+    LaunchedEffect(shouldTakePicture) {
+        if (shouldTakePicture) {
+            takePicture(controller = cameraController)
+        }
+    }
 
 } // End of Composable
 

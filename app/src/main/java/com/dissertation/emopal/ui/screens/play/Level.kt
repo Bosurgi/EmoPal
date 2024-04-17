@@ -1,6 +1,7 @@
 package com.dissertation.emopal.ui.screens.play
 
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,8 +40,7 @@ import com.dissertation.emopal.ui.components.camera.CameraView
 fun Level(
     level: String,
     onBackButtonClicked: () -> Unit,
-    onTakePicture: () -> Unit,
-    rightImageResource: String
+    onTakePicture: (Bitmap) -> Unit
 ) {
     val orientation = LocalConfiguration.current.orientation
     val boxPadding = if (orientation == Configuration.ORIENTATION_LANDSCAPE) 8.dp else 32.dp
@@ -47,7 +50,14 @@ fun Level(
     val leftImageResource by viewModel.prompt.collectAsState()
     val currentEmotion by viewModel.currentEmotion.collectAsState()
     val userEmotion by viewModel.userEmotion.collectAsState()
+    val isEmotionMatch by viewModel.isEmotionMatch.collectAsState(false)
     val isWinner by viewModel.isWinner.collectAsState(false)
+    // Flag to trigger the snap of the picture
+    var shouldTakePicture by remember { mutableStateOf(false) }
+    // Flag to show the camera or the user picture
+    var isCameraVisible by remember { mutableStateOf(true) }
+    // The current user picture taken by the camera
+    var currentUserPicture by remember { mutableStateOf<Bitmap?>(null) }
 
 
     Box(
@@ -104,14 +114,32 @@ fun Level(
                         .size(200.dp)
                         .padding(start = boxPadding)
                 ) {
-                    // Load and display image here using rightImageResource
-                    CameraView(
-                        onBackButtonClicked = onBackButtonClicked,
-                        onTakePhoto = { bitmap ->
-                            //TODO: Display Picture in the box
-                        },
-                        isButtonVisible = false
-                    )
+
+                    // Display Camera or User Picture if a picture is taken
+                    if (isCameraVisible) {
+                        CameraView(
+                            onBackButtonClicked = onBackButtonClicked,
+                            onTakePhoto = { bitmap ->
+                                onTakePicture(bitmap)
+                                shouldTakePicture = true
+                                isCameraVisible = false
+                                currentUserPicture = bitmap
+                            },
+                            isButtonVisible = false,
+                            shouldTakePicture = shouldTakePicture
+                        )
+                    } else {
+                        currentUserPicture?.asImageBitmap()?.let {
+                            Image(
+                                bitmap = it,
+                                contentDescription = "User Picture",
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentScale = ContentScale.FillBounds,
+                                alignment = Alignment.Center
+                            )
+                        }
+                    }
                 }
             }
 
@@ -139,7 +167,25 @@ fun Level(
                 BackButton(onBackButtonClicked = onBackButtonClicked)
 
                 // Take Picture Button
-                GenericButton("Take Picture", onClick = onTakePicture)
+                GenericButton("Take Picture", onClick = {
+                    shouldTakePicture = true
+                })
+
+                // Showing Next or Retry button based on the result state
+                // TODO: Implement the onClick logic
+                when (isEmotionMatch) {
+                    true -> {
+                        GenericButton("Next", onClick = { TODO() })
+                    }
+
+                    false -> {
+                        GenericButton("Retry", onClick = { TODO() })
+                    }
+
+                    null -> {
+                        // No Button is Shown
+                    }
+                }
             }
 
         }
@@ -153,6 +199,5 @@ fun LevelScreenPreview() {
         level = "1",
         onBackButtonClicked = {},
         onTakePicture = {},
-        rightImageResource = "level1/happy/happy1.jpg"
     )
 }
