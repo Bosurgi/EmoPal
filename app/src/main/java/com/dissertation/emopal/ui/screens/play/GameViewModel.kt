@@ -38,6 +38,10 @@ class GameViewModel @Inject constructor(
     private val _counter = MutableStateFlow(0)
     val counter: StateFlow<Int> get() = _counter
 
+    // Current Level
+    private val _currentLevel = MutableStateFlow("")
+    val currentLevel: StateFlow<String> get() = _currentLevel
+
     // Image prompt
     private val _prompt = MutableStateFlow<Bitmap?>(null)
     val prompt: StateFlow<Bitmap?> get() = _prompt
@@ -64,16 +68,11 @@ class GameViewModel @Inject constructor(
 
     private lateinit var allImages: List<GameImageModel>
 
-    // Initialising the images for Level 1
-    init {
-        loadImagesForLevel("1")
-    }
-
     /**
      * This function loads the images for the level passed as parameter.
      * @param level The level to load.
      */
-    private fun loadImagesForLevel(level: String) {
+    fun loadImagesForLevel(level: String) {
         viewModelScope.launch {
             allImages = repository.getImagesByLevel(level)
             // TODO: Fix bug on first startup not loading pictures
@@ -82,11 +81,19 @@ class GameViewModel @Inject constructor(
     }
 
     /**
+     * This function sets the current level.
+     * @param level The level to set.
+     */
+    fun setCurrentLevel(level: String) {
+        _currentLevel.value = level
+    }
+
+    /**
      * This function updates the prompt with a random image from the database.
      */
 
     fun updatePrompt() {
-        if (!isWinner.value) {
+        if (!isWinner.value && allImages.isNotEmpty()) {
             // TODO: Remove image already taken
             val randomImage = allImages.random()
             val randomImageName = randomImage.pictureName
@@ -119,7 +126,6 @@ class GameViewModel @Inject constructor(
      * @param userBitmap The picture taken by the user.
      */
     fun takePicture(userBitmap: Bitmap) {
-        // TODO: Implement Logic when picture is taken
         viewModelScope.launch {
             val userEmotionResult = getUserEmotion(userBitmap)
             _userEmotion.value = userEmotionResult
@@ -169,7 +175,7 @@ class GameViewModel @Inject constructor(
         _counter.value = 0
         _isWinner.value = false
         // TODO: Use current level variable to programmatically access the Level
-        loadImagesForLevel("1")
+        loadImagesForLevel(currentLevel.value)
     }
 
 
