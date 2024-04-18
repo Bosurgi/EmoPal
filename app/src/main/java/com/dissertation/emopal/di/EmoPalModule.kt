@@ -8,7 +8,6 @@ import com.dissertation.emopal.data.GameImageDao
 import com.dissertation.emopal.data.GameImageRepository
 import com.dissertation.emopal.data.ImageRepository
 import com.dissertation.emopal.data.PictureDatabase
-import com.dissertation.emopal.util.GameDatabaseInitialiser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,9 +39,10 @@ object EmoPalModule {
             // If the schema changes we can add migration logic here.
             .fallbackToDestructiveMigration()
 
-            .addCallback(
-                GameDatabaseInitialiser(gameImageProvider = imageProvider, context = appContext)
-            )
+            // Initialisation happens in the EmoPalApplication.kt file now so this is not needed anymore
+//            .addCallback(
+//                GameDatabaseInitialiser(gameImageProvider = imageProvider, context = appContext)
+//            )
 
             // If we have an asset to create the database from uncomment line below
             // .createFromAsset("YOUR_DATABASE_NAME.db")

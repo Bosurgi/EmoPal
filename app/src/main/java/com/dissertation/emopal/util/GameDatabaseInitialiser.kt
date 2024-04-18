@@ -22,6 +22,7 @@ import javax.inject.Provider
  * @Date: 15/04/2024
  */
 
+@Deprecated("This class is not used anymore.")
 class GameDatabaseInitialiser(
     private val context: Context,
     private val gameImageProvider: Provider<GameImageDao>

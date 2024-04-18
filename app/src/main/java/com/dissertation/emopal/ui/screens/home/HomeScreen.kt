@@ -23,19 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dissertation.emopal.R
 import com.dissertation.emopal.ui.theme.EmoPalTheme
-import kotlinx.coroutines.DelicateCoroutinesApi
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun HomeScreen(
     onDiaryButtonClicked: () -> Unit,
     onPlayButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    val context = androidx.compose.ui.platform.LocalContext.current
-
-    // TODO: Temporary function to test the Vision API
     fun onHelpClickPressed() {
         // TODO: Implement Help Button
     }
