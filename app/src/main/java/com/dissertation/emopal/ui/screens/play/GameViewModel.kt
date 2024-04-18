@@ -86,13 +86,15 @@ class GameViewModel @Inject constructor(
      */
 
     fun updatePrompt() {
-        // TODO: Remove image already taken
-        val randomImage = allImages.random()
-        val randomImageName = randomImage.pictureName
-        val emotion = randomImage.pictureEmotion
-        val bitmap = loadImageFromAsset(randomImageName)
-        _prompt.value = bitmap
-        _currentEmotion.value = emotion
+        if (!isWinner.value) {
+            // TODO: Remove image already taken
+            val randomImage = allImages.random()
+            val randomImageName = randomImage.pictureName
+            val emotion = randomImage.pictureEmotion
+            val bitmap = loadImageFromAsset(randomImageName)
+            _prompt.value = bitmap
+            _currentEmotion.value = emotion
+        }
     }
 
     /**
@@ -125,8 +127,8 @@ class GameViewModel @Inject constructor(
             val isMatch = _currentEmotion.value.equals(userEmotionResult, ignoreCase = true)
             _isEmotionMatch.value = isMatch
 
-            // Increment Counter if match
-            if (isMatch) {
+            // Increment Counter if match and counter is less than 10
+            if (isMatch && counter.value < 10) {
                 incrementCounter()
             }
 
@@ -158,6 +160,16 @@ class GameViewModel @Inject constructor(
         if (_counter.value == 10) {
             _isWinner.value = true
         }
+    }
+
+    /**
+     * This function resets the game and re-loads the images for Level 1.
+     */
+    fun resetGame() {
+        _counter.value = 0
+        _isWinner.value = false
+        // TODO: Use current level variable to programmatically access the Level
+        loadImagesForLevel("1")
     }
 
 

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dissertation.emopal.ui.components.BackButton
 import com.dissertation.emopal.ui.components.GenericButton
+import com.dissertation.emopal.ui.components.WinnerPopup
 import com.dissertation.emopal.ui.components.camera.CameraView
 
 @Composable
@@ -241,6 +242,14 @@ fun Level(
                 }
             }
 
+        }
+        // WINNER POPUP //
+        if (isWinner) {
+            WinnerPopup(onPlayAgainClicked = {
+                // Resetting the game and Camera
+                viewModel.resetGame()
+                resetCamera()
+            })
         }
     }
 }
