@@ -20,12 +20,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.SwitchCamera
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -58,9 +62,13 @@ fun CameraView(
     cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     previewView.controller = cameraController
 
+    var isLoading by remember { mutableStateOf(false) }
+
     fun takePicture(
         controller: LifecycleCameraController,
     ) {
+        isLoading = true
+
         val executor: Executor = ContextCompat.getMainExecutor(applicationContext)
 
         controller.takePicture(
@@ -73,6 +81,7 @@ fun CameraView(
                     onTakePhoto(bitmap)
                     // Close the image to free up the resources
                     image.close()
+                    isLoading = false
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -170,6 +179,19 @@ fun CameraView(
     LaunchedEffect(shouldTakePicture) {
         if (shouldTakePicture) {
             takePicture(controller = cameraController)
+        }
+    }
+
+    // Loading Indicator
+    if (isLoading) {
+        Box(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.8f)),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
     }
 
