@@ -158,12 +158,30 @@ fun Level(
                 }
             }
 
-            // Response Text //
-            Text(
-                text = "Response text will appear here",
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
-                style = MaterialTheme.typography.bodyLarge
-            )
+            // Response Text
+
+            when (isEmotionMatch) {
+                true -> {
+                    Text(
+                        text = "Correct! This is a $currentEmotion face!",
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+
+                false -> {
+                    Text(
+                        text = "Incorrect! Your face is showing a $userEmotion emotion!",
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+
+                null -> {
+                    // No Text is Shown
+                }
+            }
         }
         // FOOTER SECTION //
         Column(
@@ -190,11 +208,21 @@ fun Level(
                 // TODO: Implement the onClick logic
                 when (isEmotionMatch) {
                     true -> {
-                        GenericButton("Next", onClick = { TODO() })
+                        GenericButton("Next", onClick = {
+                            viewModel.updatePrompt()
+                            isCameraVisible = true
+                            currentUserPicture = null
+                            shouldTakePicture = false
+                        })
                     }
 
                     false -> {
-                        GenericButton("Retry", onClick = { TODO() })
+                        GenericButton("Retry", onClick = {
+                            isCameraVisible = true
+                            currentUserPicture = null
+                            shouldTakePicture = false
+
+                        })
                     }
 
                     null -> {

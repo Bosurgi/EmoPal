@@ -62,7 +62,6 @@ class GameViewModel @Inject constructor(
     private val _isWinner = MutableStateFlow(false)
     val isWinner: StateFlow<Boolean> get() = _isWinner
 
-    private lateinit var currentLevel: String
     private lateinit var allImages: List<GameImageModel>
 
     // Initialising the images for Level 1
@@ -86,7 +85,7 @@ class GameViewModel @Inject constructor(
      * This function updates the prompt with a random image from the database.
      */
 
-    private fun updatePrompt() {
+    fun updatePrompt() {
         // TODO: Remove image already taken
         val randomImage = allImages.random()
         val randomImageName = randomImage.pictureName
