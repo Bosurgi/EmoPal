@@ -58,7 +58,18 @@ fun Level(
     var isCameraVisible by remember { mutableStateOf(true) }
     // The current user picture taken by the camera
     var currentUserPicture by remember { mutableStateOf<Bitmap?>(null) }
+    // Result message flag to be displayed
+    var isDisplayMessage by remember { mutableStateOf(false) }
 
+    /**
+     * Helper function to reset camera components
+     */
+    fun resetCamera() {
+        isCameraVisible = true
+        currentUserPicture = null
+        shouldTakePicture = false
+        isDisplayMessage = false
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -139,6 +150,7 @@ fun Level(
                                 shouldTakePicture = true
                                 isCameraVisible = false
                                 currentUserPicture = bitmap
+                                isDisplayMessage = true
                             },
                             isButtonVisible = false,
                             shouldTakePicture = shouldTakePicture
@@ -159,27 +171,28 @@ fun Level(
             }
 
             // Response Text
+            if (isDisplayMessage) {
+                when (isEmotionMatch) {
+                    true -> {
+                        Text(
+                            text = "Correct! This is a $currentEmotion face!",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
 
-            when (isEmotionMatch) {
-                true -> {
-                    Text(
-                        text = "Correct! This is a $currentEmotion face!",
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
+                    false -> {
+                        Text(
+                            text = "Incorrect! Your face is showing a $userEmotion emotion!",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
 
-                false -> {
-                    Text(
-                        text = "Incorrect! Your face is showing a $userEmotion emotion!",
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-
-                null -> {
-                    // No Text is Shown
+                    null -> {
+                        // No Text is Shown
+                    }
                 }
             }
         }
@@ -205,28 +218,25 @@ fun Level(
                 })
 
                 // Showing Next or Retry button based on the result state
-                // TODO: Implement the onClick logic
-                when (isEmotionMatch) {
-                    true -> {
-                        GenericButton("Next", onClick = {
-                            viewModel.updatePrompt()
-                            isCameraVisible = true
-                            currentUserPicture = null
-                            shouldTakePicture = false
-                        })
-                    }
+                if (isDisplayMessage) {
 
-                    false -> {
-                        GenericButton("Retry", onClick = {
-                            isCameraVisible = true
-                            currentUserPicture = null
-                            shouldTakePicture = false
+                    when (isEmotionMatch) {
+                        true -> {
+                            GenericButton("Next", onClick = {
+                                viewModel.updatePrompt()
+                                resetCamera()
+                            })
+                        }
 
-                        })
-                    }
+                        false -> {
+                            GenericButton("Retry", onClick = {
+                                resetCamera()
+                            })
+                        }
 
-                    null -> {
-                        // No Button is Shown
+                        null -> {
+                            // No Button is Shown
+                        }
                     }
                 }
             }
