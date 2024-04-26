@@ -35,16 +35,14 @@ fun PictureCase(pictures: List<Bitmap>, category: String) {
             modifier = Modifier.padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text("Feels Empty Here...Take a Picture")
+            CategoryHeader(category = category)
         }
+        Divider()
+
+        Text("Feels Empty Here...Take a Picture")
+
     } else {
-        Text(
-            text = category,
-            modifier = Modifier
-                .padding(16.dp),
-            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-            fontFamily = MaterialTheme.typography.headlineLarge.fontFamily
-        )
+        CategoryHeader(category = category)
         Divider()
         LazyRow {
             items(pictures) { picture ->
@@ -63,4 +61,19 @@ fun PictureCase(pictures: List<Bitmap>, category: String) {
 @Preview
 fun PictureCasePreview() {
     PictureCase(pictures = emptyList(), category = "Happy")
+}
+
+/**
+ * Category Header Composable which displays the category in a header style.
+ * @param category the category to be displayed.
+ */
+@Composable
+fun CategoryHeader(category: String) {
+    Text(
+        text = category,
+        modifier = Modifier
+            .padding(16.dp),
+        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+        fontFamily = MaterialTheme.typography.headlineLarge.fontFamily
+    )
 }

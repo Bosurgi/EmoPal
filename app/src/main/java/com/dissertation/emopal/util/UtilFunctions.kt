@@ -2,9 +2,6 @@ package com.dissertation.emopal.util
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
-import kotlin.math.ceil
-import kotlin.math.ln
-import kotlin.random.Random
 
 /**
  * Kotlin Class with eventual Helper Functions
@@ -20,8 +17,7 @@ import kotlin.random.Random
  */
 fun Bitmap.rotateBitmap(degree: Int): Bitmap {
     val matrix = Matrix().apply {
-        postRotate(-degree.toFloat())
-        postScale(-1f, -1f)
+        postRotate(degree.toFloat())
     }
     return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
 }

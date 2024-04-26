@@ -59,7 +59,7 @@ fun CameraView(
     val cameraController = remember { LifecycleCameraController(applicationContext) }
     val lifecycleOwner = LocalLifecycleOwner.current
     cameraController.bindToLifecycle(lifecycleOwner)
-    cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+    cameraController.cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
     previewView.controller = cameraController
 
     var isLoading by remember { mutableStateOf(false) }
