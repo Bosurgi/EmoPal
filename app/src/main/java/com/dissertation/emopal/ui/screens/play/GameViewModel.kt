@@ -75,7 +75,6 @@ class GameViewModel @Inject constructor(
     fun loadImagesForLevel(level: String) {
         viewModelScope.launch {
             allImages = repository.getImagesByLevel(level)
-            // TODO: Fix bug on first startup not loading pictures
             updatePrompt()
         }
     }
@@ -174,7 +173,6 @@ class GameViewModel @Inject constructor(
     fun resetGame() {
         _counter.value = 0
         _isWinner.value = false
-        // TODO: Use current level variable to programmatically access the Level
         loadImagesForLevel(currentLevel.value)
     }
 
