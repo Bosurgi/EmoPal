@@ -1,6 +1,7 @@
 package com.dissertation.emopal.data
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -91,6 +93,13 @@ class DiaryViewModel @Inject constructor(private val repository: ImageRepository
                     repository.getPictureByPictureMetadata(bitmapMetadata)
                 }
                 repository.deletePicture(pictureModel)
+                // Delete the picture from the file system
+                try {
+                    val pictureFile = File(bitmapMetadata.filePath)
+                    pictureFile.delete()
+                } catch (exception: Exception) {
+                    Log.e("DiaryViewModel", "Error deleting the picture: $exception")
+                }
             }
         }
     }

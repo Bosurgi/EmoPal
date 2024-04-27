@@ -100,6 +100,9 @@ fun PictureCase(pictures: MutableList<BitmapMetadata>, category: String) {
     }
 }
 
+/**
+ * Photo Actions Sheet Composable which displays the action menu for the photo.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PhotoActionsSheet(
@@ -131,12 +134,6 @@ private fun PhotoActionsSheet(
         Spacer(modifier = Modifier.padding(bottom = 100.dp))
     }
 }
-
-//@Composable
-//@Preview
-//fun PictureCasePreview() {
-//    PictureCase(pictures = emptyList(), category = "Happy")
-//}
 
 /**
  * Category Header Composable which displays the category in a header style.
