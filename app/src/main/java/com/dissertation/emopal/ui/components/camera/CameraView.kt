@@ -51,7 +51,7 @@ fun CameraView(
     onBackButtonClicked: () -> Unit,
     onTakePhoto: (Bitmap) -> Unit,
     isButtonVisible: Boolean,
-    shouldTakePicture: Boolean
+    shouldTakePicture: Boolean,
 ) {
     // The current application context
     val applicationContext = LocalContext.current
@@ -61,8 +61,9 @@ fun CameraView(
     cameraController.bindToLifecycle(lifecycleOwner)
     cameraController.cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
     previewView.controller = cameraController
-
+//
     var isLoading by remember { mutableStateOf(false) }
+
 
     fun takePicture(
         controller: LifecycleCameraController,

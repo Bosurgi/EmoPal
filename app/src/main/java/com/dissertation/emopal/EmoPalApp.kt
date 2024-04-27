@@ -94,10 +94,14 @@ fun EmoPalApp(
                         navigateBackToDiary,
                         // Sending the Bitmap to the View Model
                         onTakePhoto = { bitmap ->
-                            cameraViewModel.savePicture(bitmap)
+                            cameraViewModel.savePicture(bitmap, onSaveComplete = {
+                                cameraViewModel.isLoading.value = false
+                                // Update the Diary
+                                navigateBackToDiary()
+                            })
                         },
                         isButtonVisible = true,
-                        shouldTakePicture = false
+                        shouldTakePicture = false,
                     )
                 }
             } // End of Nested Navigation Graph for Diary Screen
