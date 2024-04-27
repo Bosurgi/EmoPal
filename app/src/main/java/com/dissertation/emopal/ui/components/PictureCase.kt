@@ -1,7 +1,13 @@
 package com.dissertation.emopal.ui.components
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -24,8 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.dissertation.emopal.data.BitmapMetadata
+import com.dissertation.emopal.data.DiaryViewModel
 import com.dissertation.emopal.ui.screens.diary.FullScreenImage
 import com.dissertation.emopal.ui.screens.diary.PictureBox
 
@@ -35,10 +43,10 @@ import com.dissertation.emopal.ui.screens.diary.PictureBox
  */
 
 @Composable
-fun PictureCase(pictures: List<Bitmap>, category: String) {
+fun PictureCase(pictures: MutableList<BitmapMetadata>, category: String) {
 
     var activePicture by remember { mutableStateOf<Bitmap?>(null) }
-    var haptics = LocalHapticFeedback.current
+    val haptics = LocalHapticFeedback.current
     var contextMenuPhoto by rememberSaveable { mutableStateOf<Bitmap?>(null) }
 
     if (pictures.isEmpty()) {
@@ -58,11 +66,11 @@ fun PictureCase(pictures: List<Bitmap>, category: String) {
         LazyRow {
             items(pictures) { picture ->
                 PictureBox(
-                    picture,
-                    onClick = { activePicture = picture },
+                    picture.bitmap,
+                    onClick = { activePicture = picture.bitmap },
                     onLongClick = {
                         haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                        contextMenuPhoto = picture
+                        contextMenuPhoto = picture.bitmap
                     }
                 )
             }
@@ -70,14 +78,24 @@ fun PictureCase(pictures: List<Bitmap>, category: String) {
     }
     // If the active picture is selected then it will enlarge it for the size of the parent component.
     if (activePicture != null) {
-        FullScreenImage(photo = pictures.first { it == activePicture!! },
-            onDismiss = { activePicture = null })
+        val activePictureMetadata = pictures.firstOrNull { it.bitmap == activePicture }
+        if (activePictureMetadata != null) {
+            FullScreenImage(photo = activePictureMetadata.bitmap) {
+                activePicture = null
+            }
+        }
     }
 
+    // If the photo for the context menu is not null then it will display the Bottom sheet.
     if (contextMenuPhoto != null) {
+        val viewModel: DiaryViewModel = hiltViewModel()
+
         PhotoActionsSheet(
             photo = contextMenuPhoto!!,
-            onDismissSheet = { contextMenuPhoto = null }
+            onDismissSheet = { contextMenuPhoto = null },
+            onDelete = { deletedPhoto ->
+                viewModel.deletePicture(category, deletedPhoto)
+            }
         )
     }
 }
@@ -85,24 +103,40 @@ fun PictureCase(pictures: List<Bitmap>, category: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PhotoActionsSheet(
-    @Suppress("UNUSED_PARAMETER") photo: Bitmap,
-    onDismissSheet: () -> Unit
+    photo: Bitmap,
+    onDismissSheet: () -> Unit,
+    onDelete: (Bitmap) -> Unit,
 ) {
+    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
     ModalBottomSheet(
-        onDismissRequest = onDismissSheet
+        onDismissRequest = onDismissSheet,
+        modifier = Modifier.padding(16.dp),
     ) {
-        ListItem(
-            headlineContent = { Text("Delete") },
-            leadingContent = { Icon(Icons.Default.DeleteOutline, null) }
-        )
+        Column(
+            modifier = Modifier
+                .padding(bottom = bottomPadding)
+        ) {
+            ListItem(
+                headlineContent = { Text("Delete") },
+                leadingContent = { Icon(Icons.Default.DeleteOutline, null) },
+                modifier = Modifier
+                    .clickable {
+                        onDelete(photo)
+                        onDismissSheet()
+                    }
+                    .align(Alignment.CenterHorizontally)
+            )
+        }
+        Spacer(modifier = Modifier.padding(bottom = 100.dp))
     }
 }
 
-@Composable
-@Preview
-fun PictureCasePreview() {
-    PictureCase(pictures = emptyList(), category = "Happy")
-}
+//@Composable
+//@Preview
+//fun PictureCasePreview() {
+//    PictureCase(pictures = emptyList(), category = "Happy")
+//}
 
 /**
  * Category Header Composable which displays the category in a header style.

@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dissertation.emopal.data.BitmapMetadata
 import com.dissertation.emopal.data.DiaryViewModel
 import com.dissertation.emopal.ui.components.BackButton
 import com.dissertation.emopal.ui.components.GenericButton
@@ -76,10 +77,10 @@ fun DiaryBody(
     emotions: List<String>,
     onBackButtonClicked: () -> Unit,
     onTakePictureClicked: () -> Unit,
-    happyPictures: List<Bitmap>,
-    sadPictures: List<Bitmap>,
-    angryPictures: List<Bitmap>,
-    surprisedPictures: List<Bitmap>
+    happyPictures: List<BitmapMetadata>,
+    sadPictures: List<BitmapMetadata>,
+    angryPictures: List<BitmapMetadata>,
+    surprisedPictures: List<BitmapMetadata>
 
 ) {
 
@@ -101,7 +102,7 @@ fun DiaryBody(
                     "Surprised" -> surprisedPictures
                     else -> emptyList()
                 }
-                PictureCase(picturesForCategory, emotions[index])
+                PictureCase(picturesForCategory.toMutableList(), emotions[index])
                 Divider()
             }
             item {
