@@ -17,6 +17,9 @@ import javax.inject.Inject
  * @Date: 10/03/2024
  */
 
+// Constant to store the prefix string of the level
+private const val LEVEL_PREFIX = "level"
+
 @HiltAndroidApp
 class EmoPalApplication : Application() {
     @Inject
@@ -32,24 +35,36 @@ class EmoPalApplication : Application() {
 
     /**
      * Populates the database with the images for the mini game contained in the assets directory.
-     * // TODO: Change logic to populate the database with other level's images
      */
     private suspend fun populateDatabase() {
+        populateDatabasePerLevel(1)
+        populateDatabasePerLevel(2)
+        populateDatabasePerLevel(3)
+    }
+
+    /**
+     * Populates the database with the images for the mini game contained in the assets directory.
+     *
+     */
+    private suspend fun populateDatabasePerLevel(level: Int) {
         // Populating Database with images from assets directory
+        val levelName = "$LEVEL_PREFIX$level"
         try {
             val assetManager: AssetManager = this.assets
             // Getting the list of images from the assets directory
-            val level1Files = assetManager.list("level1")?.toList() ?: emptyList()
-            for (dirName in level1Files) {
-                val subFolderFiles = assetManager.list("level1/$dirName")?.toList() ?: emptyList()
-                // Listing the subfolder files ('angry', 'happy', etc.)
+            val levelFiles = assetManager.list(levelName)?.toList() ?: emptyList()
+            // Listing the subfolders ('angry', 'happy', etc.)
+            for (dirName in levelFiles) {
+                val subFolderFiles =
+                    assetManager.list("$levelName/$dirName")?.toList() ?: emptyList()
+                // Listing the subfolder files ('angry1', 'happy2', etc.)
                 for (fileName in subFolderFiles) {
-                    val pictureName = "level1/$dirName/$fileName"
+                    val pictureName = "$levelName/$dirName/$fileName"
                     // Inserting the reference to the database
                     gameImageDao.insertImage(
                         GameImageModel(
                             pictureName = pictureName,
-                            level = "1",
+                            level = level.toString(),
                             pictureEmotion = dirName
                         )
                     )

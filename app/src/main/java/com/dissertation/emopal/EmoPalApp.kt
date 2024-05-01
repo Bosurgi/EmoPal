@@ -135,17 +135,28 @@ fun EmoPalApp(
                 }
 
                 composable(route = Routes.LEVEL2.name) {
-                    /* TODO: Implement Actual mini-games for each Level */
-//                    Level(level = "2", onBackButtonClicked = navigateBackToPlay)
+                    Level(
+                        level = "2",
+                        onBackButtonClicked = navigateBackToPlay,
+                        onTakePicture = { bitmap ->
+                            gameViewModel.takePicture(bitmap)
+                        },
+                        gameViewModel
+                    )
                 }
 
                 composable(route = Routes.LEVEL3.name) {
-                    /* TODO: Implement Actual mini-games for each Level */
-//                    Level(level = "3", onBackButtonClicked = navigateBackToPlay)
+                    Level(
+                        level = "3",
+                        onBackButtonClicked = navigateBackToPlay,
+                        onTakePicture = { bitmap ->
+                            gameViewModel.takePicture(bitmap)
+                        },
+                        gameViewModel
+                    )
                 }
             } // End of Nested Navigation Graph for Play Screen
 
-            // TODO: Add the other screens below
         }
     } // End of Scaffold lambda
 } // End of EmoPalApp Composable
