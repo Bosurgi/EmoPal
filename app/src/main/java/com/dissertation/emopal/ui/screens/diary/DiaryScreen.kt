@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -24,10 +25,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dissertation.emopal.data.BitmapMetadata
 import com.dissertation.emopal.data.DiaryViewModel
 import com.dissertation.emopal.ui.components.BackButton
 import com.dissertation.emopal.ui.components.GenericButton
@@ -74,10 +77,10 @@ fun DiaryBody(
     emotions: List<String>,
     onBackButtonClicked: () -> Unit,
     onTakePictureClicked: () -> Unit,
-    happyPictures: List<Bitmap>,
-    sadPictures: List<Bitmap>,
-    angryPictures: List<Bitmap>,
-    surprisedPictures: List<Bitmap>
+    happyPictures: List<BitmapMetadata>,
+    sadPictures: List<BitmapMetadata>,
+    angryPictures: List<BitmapMetadata>,
+    surprisedPictures: List<BitmapMetadata>
 
 ) {
 
@@ -99,7 +102,7 @@ fun DiaryBody(
                     "Surprised" -> surprisedPictures
                     else -> emptyList()
                 }
-                PictureCase(picturesForCategory, emotions[index])
+                PictureCase(picturesForCategory.toMutableList(), emotions[index])
                 Divider()
             }
             item {
@@ -153,15 +156,22 @@ fun FullScreenImage(photo: Bitmap, onDismiss: () -> Unit) {
 /**
  * Picture Box Composable which displays the picture in a box with a click listener.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PictureBox(picture: Bitmap, onClick: () -> Unit) {
+fun PictureBox(picture: Bitmap, onClick: () -> Unit, onLongClick: () -> Unit) {
     Image(
         bitmap = picture.asImageBitmap(),
         contentDescription = null,
         modifier = Modifier
             .size(100.dp)
             .padding(16.dp)
-            .clickable { onClick() },
+            // Detecting the tap gestures for the image
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = { onLongClick() },
+                    onTap = { onClick() }
+                )
+            },
     )
 }
 

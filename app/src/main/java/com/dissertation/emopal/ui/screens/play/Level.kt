@@ -161,7 +161,7 @@ fun Level(
                                 isDisplayMessage = true
                             },
                             isButtonVisible = false,
-                            shouldTakePicture = shouldTakePicture
+                            shouldTakePicture = shouldTakePicture,
                         )
                     } else {
                         currentUserPicture?.asImageBitmap()?.let {

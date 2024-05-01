@@ -3,6 +3,7 @@ package com.dissertation.emopal.ui.components.camera
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dissertation.emopal.BuildConfig
@@ -36,12 +37,17 @@ class CameraViewModel @Inject constructor(
     private val apiKey = BuildConfig.API_KEY
     private val visionClient = FaceEmotionClient(apiKey)
 
+    val isLoading = mutableStateOf(false)
+
     /**
      * Function to save the picture taken by the user in the internal storage of the app.
      * @param bitmap: the picture taken by the user.
      */
-    fun savePicture(bitmap: Bitmap) =
+    fun savePicture(bitmap: Bitmap, onSaveComplete: () -> Unit) =
         viewModelScope.launch {
+
+            // Loading State to show the user that the picture is being processed
+            isLoading.value = true
 
             // Getting the current date
             val currentDate =
@@ -91,5 +97,10 @@ class CameraViewModel @Inject constructor(
                 pictureEmotion = emotion
             )
             repository.insertPicture(diaryPictureModel)
+
+            // Updating the loading state
+            isLoading.value = false
+
+            onSaveComplete()
         }
 }
