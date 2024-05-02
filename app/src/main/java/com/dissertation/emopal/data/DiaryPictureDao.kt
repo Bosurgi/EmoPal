@@ -49,4 +49,6 @@ interface DiaryPictureDao {
     @Query("SELECT * FROM diary_pictures WHERE pictureEmotion = :emotion")
     fun getPicturesByEmotion(emotion: String): List<DiaryPictureModel>
 
+    @Query("SELECT * FROM diary_pictures WHERE picturePath = :path")
+    fun getPictureByPath(path: String): DiaryPictureModel
 }

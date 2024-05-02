@@ -29,7 +29,10 @@ class ImageRepository @Inject constructor(private val pictureDao: DiaryPictureDa
      */
     suspend fun updatePicture(picture: DiaryPictureModel) = pictureDao.updatePicture(picture)
 
-    suspend fun getPicturesByEmotion(emotion: String): List<DiaryPictureModel> =
+    fun getPicturesByEmotion(emotion: String): List<DiaryPictureModel> =
         pictureDao.getPicturesByEmotion(emotion)
+
+    fun getPictureByPictureMetadata(pictureMetadata: BitmapMetadata): DiaryPictureModel =
+        pictureDao.getPictureByPath(pictureMetadata.filePath)
 
 }

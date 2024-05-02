@@ -11,25 +11,19 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Asking user for permission to use the defined permissions needed
-        // TODO: This should be handled differently with specific components. For later reference.
         if (!hasPermissions()) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, 0)
         }
         setContent {
             EmoPalTheme {
-                setContent {
                     /***
                      * This is the main entry point for the app
                      */
                     EmoPalApp()
-
-                }
             }
         }
     }

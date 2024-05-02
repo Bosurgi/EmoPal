@@ -1,7 +1,5 @@
 package com.dissertation.emopal.ui.screens.home
 
-import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,36 +21,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dissertation.emopal.BuildConfig
 import com.dissertation.emopal.R
 import com.dissertation.emopal.ui.theme.EmoPalTheme
-import com.dissertation.emopal.util.FaceEmotionClient
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun HomeScreen(
     onDiaryButtonClicked: () -> Unit,
     onPlayButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val apiKey = BuildConfig.API_KEY
-    val visionApiRequest = FaceEmotionClient(apiKey)
-
-    // TODO: Temporary function to test the Vision API
     fun onHelpClickPressed() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val bitmap =
-                BitmapFactory.decodeFile("/data/user/0/com.dissertation.emopal/files/diary_images/IMG_2024-03-16 12:45:11.png")
-            val featureType = "FACE_DETECTION" // Change this according to your requirements
-            val maxResults = 1 // Change this according to your requirements
-            val response = visionApiRequest.annotateImage(bitmap, featureType, maxResults)
-
-            Log.d("VisionAPIResponse", response) // Log the response
-        }
+        // TODO: Implement Help Button
     }
     Column(
         modifier = modifier,
@@ -123,7 +102,6 @@ fun HomeScreen(
 
                     // HELP BUTTON //
                     Button(
-                        // TODO: Temporary function to test the Vision API
                         onClick = { onHelpClickPressed() },
                         modifier = Modifier.sizeIn(minWidth = 124.dp, minHeight = 62.dp),
                         shape = MaterialTheme.shapes.small,
