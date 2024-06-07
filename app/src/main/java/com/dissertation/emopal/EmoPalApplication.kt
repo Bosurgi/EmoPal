@@ -53,7 +53,7 @@ class EmoPalApplication : Application() {
             val assetManager: AssetManager = this.assets
             // Getting the list of images from the assets directory
             val levelFiles = assetManager.list(levelName)?.toList() ?: emptyList()
-            // Listing the subfolders ('angry', 'happy', etc.)
+            // Listing the sub folders ('angry', 'happy', etc.)
             for (dirName in levelFiles) {
                 val subFolderFiles =
                     assetManager.list("$levelName/$dirName")?.toList() ?: emptyList()
