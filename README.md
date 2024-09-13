@@ -55,17 +55,17 @@ Highlights of the main features of the application.
 ### Match the emotion Game
 ![happy2](https://github.com/user-attachments/assets/7e193463-43e5-4959-a821-e1e6aba534b1)
 
-- Set of pictures categorised in Happy, Anger, Sadness and Surprise
+- Set of pictures categorised in Happiness, Anger, Sadness and Surprise
 - Three levels of increasing difficulty
 - Automatic recognition of the emotion expressed
 - Comparison between picture shown and picture taken
 
 ## Final Notes
 This project served as a working prototype and more development is needed.
-A custom model has been developed to allow the application to run offline and without connecting to the Google Cloud Vision API.
-The model is ~70% accurate, but further tests need to be carried out.
-The produced model is a TensorFlowLite model trained with Keras using Convolutional Neural Network (CNN).
-The dataset used is [FER-2013](https://www.kaggle.com/datasets/msambare/fer2013)
+A custom model has been developed to allow the application to run offline and without connecting to the Google Cloud Vision API.<br />
+The model is ~70% accurate, but further tests need to be carried out. <br />
+The produced model is a TensorFlowLite model trained with Keras using Convolutional Neural Network (CNN).<br />
+The dataset used is [FER-2013](https://www.kaggle.com/datasets/msambare/fer2013).
 
 ![TrainingModelGraph](https://github.com/user-attachments/assets/d20bd214-5e5b-4a45-9650-1d3bf2963068)
 
